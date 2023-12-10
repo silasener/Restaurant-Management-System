@@ -32,8 +32,8 @@ public class Koordinasyon {
 			// changes
 			Random rand = new Random();
 			int randomOrder = rand.nextInt(2);
-			Order order = new Order( randomOrder, musteriThread.getMusteriNumarasi(), masa, garson);
-			RestoranYonetimSistemi.cookFactory.appendNewOrder(order);
+			Order order = new Order( randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
+			RestoranYonetimSistemi.cookFactory.appendNewOrder(order);  //aşçının siparişi oluşur
 			garson.setSiparis(order);
 			musteriThread.setSiparis(order);
 
@@ -55,7 +55,7 @@ public class Koordinasyon {
 
 	public void musteriAyriliyor(MusteriThread musteriThread) {
 		RestoranYonetimSistemi.musteriAyrilacakLabelGuncelle(musteriThread.getMusteriNumarasi());
-		RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi ayrılıyor, ve garsonu:", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
+		RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
 		RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " yemek yedi ve ayrılıyor.");
 		musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
 		KasaThread kasaThread = new KasaThread(musteriThread);

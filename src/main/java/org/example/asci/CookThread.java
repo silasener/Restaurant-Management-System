@@ -22,20 +22,20 @@ public class CookThread extends Thread {
         cookFactory = cf;
     }
 
-    public void run() {
+    public void run() { //aşçı threadleri oluşturunca hep çalışmaya başlar
         while(true){
             cookPanel.addCookMessage( "Aşçı " + cookNumber + " yemek yapmaya hazır" );
             try {
-                if(!CookFactory.returnOrdersToCook().isEmpty()){
+                if(!CookFactory.returnOrdersToCook().isEmpty()){ //sipariş varsa çalışır  returnOrdersToCook()==order
 
                     this.cookLock.lock();
 
-                    Order o = CookFactory.returnOrdersToCook().get(0);
-                    cookPanel.addCookMessage("Aşçı: "+ cookNumber + " ve alınan sipariş " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi());
-                    Thread.sleep(1000 * (int)(Math.random() * 10));
+                    Order o = CookFactory.returnOrdersToCook().get(0); //order=; garson,aşçı,masa,sipariş
                     CookFactory.returnOrdersToCook().remove(0);
+                    cookPanel.addCookMessage("Aşçı: "+ cookNumber + " ve alınan sipariş " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi()+" garsonu :"+o.getGarson().getGarsonunNumarasi());
+                    Thread.sleep(3000); // aşçının yemek yapma süresi 3 sn
 
-                    cookPanel.addCookMessage("Aşçı:  " +cookNumber + " ve tamamladığı siparşi " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi());
+                    cookPanel.addCookMessage("Aşçı:  " +cookNumber + " ve tamamladığı siparşi " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi()+" garsonu :"+o.getGarson().getGarsonunNumarasi());
 
                     this.cookLock.unlock();
                 }

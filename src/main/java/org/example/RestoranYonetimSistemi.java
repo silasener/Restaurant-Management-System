@@ -68,7 +68,7 @@ public class RestoranYonetimSistemi  extends JFrame {
        baslat .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 if (baslat.getText().equals("BAŞLAT")) {
-
+                    baslat.setText("DURDUR");
                     StringBuilder bosMasalarinNumaralari = new StringBuilder("Boş Masalar: ");
                     for (int i = 1; i < getMasaNumaralari(); i++) {
                         bosMasalarinNumaralari.append(i).append(" ,");
@@ -76,7 +76,6 @@ public class RestoranYonetimSistemi  extends JFrame {
                     bosMasalarinNumaralari.append(getMasaNumaralari()); //son masanın numarası
                     bosMasaLabel.setText(bosMasalarinNumaralari.toString());
 
-                    baslat.setText("DURDUR");
                     masaDurumu= new boolean [getMasaNumaralari()];
                     garsonlar= new JTextArea[getGarsonNumaralari()];
                     garsonPanel= new JPanel();

@@ -51,7 +51,16 @@ public class GarsonThread extends Thread{
         }
     }
 
-    public void setSiparis(Order o){this.order = o;}
+    public void setSiparis(Order o){
+        try {
+            System.out.println("garson sipariş alıyor 2 sn boyunca");
+            Thread.sleep(2000); //garson 2 saniye sipariş alıyor
+            System.out.println("garson sipariş aldı");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        this.order = o;
+    }
 
     public Order returnSiparis(){
         return order;

@@ -13,8 +13,7 @@ public class KasaThread extends Thread {
     @Override
     public void run() {
         try {
-            // Ödeme işlemi için 1 saniye bekle
-            Thread.sleep(1000);
+            Thread.sleep(1000);  // Kasa ödeme işlemi için 1 saniye bekler
             RestoranYonetimSistemi.kasaMesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " için ödeme alındı: ");
             RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " için ödeme alındı: ");
         } catch (InterruptedException e) {

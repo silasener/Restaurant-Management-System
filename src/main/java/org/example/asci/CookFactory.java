@@ -12,13 +12,13 @@ public class CookFactory {
         ordersToCook = new Vector<Order>();
 
         for ( int i=0; i<numCooks; i++ ) {
-            CookThread c = new CookThread( i, cp, this );
+            CookThread c = new CookThread( i, cp, this ); //aşçılar için thread oluşturur
             c.start();
         }
 
     }
 
-    public void appendNewOrder(Order o) {
+    public void appendNewOrder(Order o) { //sipariş oluşturur: garson, aşçı,masa tutar=order
         ordersToCook.add(o);
     }
     public static Vector<Order> returnOrdersToCook(){
