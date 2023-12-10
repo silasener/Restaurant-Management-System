@@ -88,6 +88,8 @@ public class RestoranYonetimSistemi  extends JFrame {
                         garsonPanel.add(jsp);
                     }
 
+                    cookPanel=new CookPanel();
+
                     add(garsonPanel, BorderLayout.SOUTH);
 
                     Koordinasyon koordine = new Koordinasyon(getMasaNumaralari());
@@ -124,8 +126,7 @@ public class RestoranYonetimSistemi  extends JFrame {
         add(panel, BorderLayout.NORTH);
         add(kaydirilabilirMetin, BorderLayout.CENTER);
 
-         cookPanel = new CookPanel();
-         add(cookPanel,BorderLayout.EAST);
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 500);
