@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Kasa.KasaThread;
 import org.example.garson.GarsonThread;
 import org.example.musteri.MusteriThread;
 
@@ -57,6 +58,8 @@ public class Koordinasyon {
 		RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi ayrılıyor, ve garsonu:", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
 		RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " yemek yedi ve ayrılıyor.");
 		musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
+		KasaThread kasaThread = new KasaThread(musteriThread);
+		kasaThread.start();
 		masalar.returnMasa(musteriThread.getMasa());
 	}
 

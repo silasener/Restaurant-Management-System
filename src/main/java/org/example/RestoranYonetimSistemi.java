@@ -1,7 +1,6 @@
 package org.example;
 import org.example.asci.CookFactory;
 import org.example.garson.GarsonUret;
-import org.example.musteri.MusteriThread;
 import org.example.musteri.MusteriUret;
 
 import java.awt.*;
@@ -17,6 +16,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     private static JTextArea metin;
     private static boolean[] masaDurumu;
     private static JTextArea garsonlar[];
+    private static JTextArea kasa;
     private static  RestaurantListLabel bekleyenMusterilerLabel;
     private static  RestaurantListLabel yerlestirilenMusterilerLabel;
     private static  RestaurantListLabel hizmetVerilenMusterilerLabel;
@@ -27,6 +27,8 @@ public class RestoranYonetimSistemi  extends JFrame {
     private CookPanel cookPanel;
     private static JLabel bosMasaLabel;
     private static JLabel doluMasaLabel;
+    private static JFrame kasaLog;
+    private static  JTextArea kasaLogTextArea;
 
 
 
@@ -66,7 +68,6 @@ public class RestoranYonetimSistemi  extends JFrame {
        baslat .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 if (baslat.getText().equals("BAŞLAT")) {
-//waiterPanel kodunu yazmadım
 
                     StringBuilder bosMasalarinNumaralari = new StringBuilder("Boş Masalar: ");
                     for (int i = 1; i < getMasaNumaralari(); i++) {
@@ -94,6 +95,15 @@ public class RestoranYonetimSistemi  extends JFrame {
                     musteriUret= new MusteriUret(koordine); //müşteri
                     cookFactory = new CookFactory(cookPanel,getAsciNumaralari());  //aşçı
 
+                    kasaLog=new JFrame();
+                    kasaLog.setTitle("KASA");
+                    kasaLog.setSize(300,200);
+                    kasaLogTextArea= new JTextArea("", 20, 40);
+                    kasaLogTextArea.setLineWrap(false);
+                    kasaLogTextArea.setFont((new Font("Arial",Font.PLAIN, 12)));
+                    JScrollPane kasaLogScrollPane = new JScrollPane(kasaLogTextArea);
+                    kasaLog.add(kasaLogScrollPane);
+                    kasaLog.setVisible(true);
 
 
                 }else if (baslat.getText().equals("DURDUR")) {
@@ -165,6 +175,16 @@ public class RestoranYonetimSistemi  extends JFrame {
         }
         else {
             metin.setText(metin.getText() + "\n" + msg);
+        }
+    }
+
+    public static void kasaMesajEkle(String msg) {
+        String text = kasaLogTextArea.getText();
+        if (text == null || text.length() == 0) {
+            kasaLogTextArea.setText(msg);
+        }
+        else {
+            kasaLogTextArea.setText(kasaLogTextArea.getText() + "\n" + msg);
         }
     }
 
