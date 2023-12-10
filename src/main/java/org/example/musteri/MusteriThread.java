@@ -18,11 +18,13 @@ public class MusteriThread extends Thread{
         this.start();
     }
 
+    public void setSiparis(Order o){
+        this.order = o;
+    }
 
     public Masa getMasa() {return this.masa;}
-    public int getMusteriNumarasi() {
-        return this.musteriNumarasi;
-    }
+
+    public int getMusteriNumarasi() {return this.musteriNumarasi;}
 
     public void run() {
         try {
@@ -37,7 +39,4 @@ public class MusteriThread extends Thread{
         }
     }
 
-    public void setSiparis(Order o){
-        this.order = o;
-    }
 }

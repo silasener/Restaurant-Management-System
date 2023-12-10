@@ -25,6 +25,9 @@ public class RestoranYonetimSistemi  extends JFrame {
     private MusteriUret musteriUret;
     public static CookFactory cookFactory;
     private CookPanel cookPanel;
+    private static JLabel bosMasaLabel;
+    private static JLabel doluMasaLabel;
+
 
 
     public RestoranYonetimSistemi(){
@@ -46,9 +49,9 @@ public class RestoranYonetimSistemi  extends JFrame {
         JButton baslat = new JButton("BAŞLAT");
         componentEkle(panel, baslat, 6, 0, GridBagConstraints.CENTER, 2, 1);
 
-        JLabel bosMasaLabel = new JLabel("Boş Masalar: ");
+        bosMasaLabel = new JLabel("Boş Masalar: ");
         componentEkle(panel,bosMasaLabel,0,3,GridBagConstraints.CENTER,2,1);
-        JLabel doluMasaLabel = new JLabel("Dolu Masalar: ");
+        doluMasaLabel = new JLabel("Dolu Masalar: ");
         componentEkle(panel,doluMasaLabel,4,3,GridBagConstraints.CENTER,2,1);
         ReentrantLock threadKontrolu = new ReentrantLock();
         bekleyenMusterilerLabel = new RestaurantListLabel("Bekleyen Müşteriler: ", threadKontrolu);
@@ -87,9 +90,9 @@ public class RestoranYonetimSistemi  extends JFrame {
                     add(garsonPanel, BorderLayout.SOUTH);
 
                     Koordinasyon koordine = new Koordinasyon(getMasaNumaralari());
-                    garsonUret = new GarsonUret(koordine, getGarsonNumaralari()); //garsonUret
+                    garsonUret = new GarsonUret(koordine, getGarsonNumaralari()); //garson
                     musteriUret= new MusteriUret(koordine); //müşteri
-                    cookFactory = new CookFactory(cookPanel,getGarsonNumaralari()); // added //aşçı
+                    cookFactory = new CookFactory(cookPanel,getAsciNumaralari());  //aşçı
 
 
 
@@ -148,17 +151,11 @@ public class RestoranYonetimSistemi  extends JFrame {
         new RestoranYonetimSistemi();
     }
 
-    public int getMasaNumaralari() {
-        return masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());
-    }
+    public int getMasaNumaralari() {return masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());}
 
-    public int getGarsonNumaralari() {
-        return garsonSayisiCombobox.getItemAt(garsonSayisiCombobox.getSelectedIndex());
-    }
+    public int getGarsonNumaralari() {return garsonSayisiCombobox.getItemAt(garsonSayisiCombobox.getSelectedIndex());}
 
-    public int getAsciNumaralari() {
-        return garsonSayisiCombobox.getItemAt(garsonSayisiCombobox.getSelectedIndex());
-    }
+    public int getAsciNumaralari() {return asciSayisiCombobox.getItemAt(asciSayisiCombobox.getSelectedIndex());}
 
 
     public static void mesajEkle(String msg) {
@@ -194,6 +191,31 @@ public class RestoranYonetimSistemi  extends JFrame {
     public static void musteriAyrilacakLabelGuncelle(int musteriNumarasi){
         hizmetVerilenMusterilerLabel.remove(musteriNumarasi);
         yerlestirilenMusterilerLabel.add(musteriNumarasi);
+    }
+
+    public static void masaDurumlariniGuncelle(int masaNumarasi) {
+        masaDurumu[masaNumarasi] = !masaDurumu[masaNumarasi];
+        StringBuilder bosMasaBuilder = new StringBuilder("Boş Masalar: ");
+        StringBuilder doluMasaBuilder = new StringBuilder("Dolu Masalar: ");
+
+        for (int i = 0; i < masaDurumu.length; i++) {
+            if (!masaDurumu[i]) {
+                bosMasaBuilder.append(i + ", ");
+            }else{
+                doluMasaBuilder.append(i + ", ");
+            }
+        }
+
+        if (bosMasaBuilder.toString().contains(",")) {
+            bosMasaBuilder.replace(bosMasaBuilder.lastIndexOf(","), bosMasaBuilder.lastIndexOf(",") + 1, "");
+        }
+
+        if (doluMasaBuilder.toString().contains(",")) {
+            doluMasaBuilder.replace(doluMasaBuilder.lastIndexOf(","), doluMasaBuilder.lastIndexOf(",") + 1, "");
+        }
+
+        bosMasaLabel.setText(bosMasaBuilder.toString());
+        doluMasaLabel.setText(doluMasaBuilder.toString());
     }
 
 

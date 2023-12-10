@@ -23,8 +23,10 @@ public class Masalar {
 		Masa tableToReturn = null;
 		try {
 			while(this.doluMasaSayisi == this.toplamMasaSayisi) {
+				RestoranYonetimSistemi.mesajEkle("Uygun masa yok");
 				// wait for a table to become available
 				uygunMasaYok.await();
+				RestoranYonetimSistemi.mesajEkle("Uygun masa var");
 			}
 			// when this thread is signalled, find the table that is available
 			for (int i = 0; i < this.toplamMasaSayisi; i++) {
@@ -38,7 +40,7 @@ public class Masalar {
 		} finally {
 			lock.unlock();
 		}
-		//Restaurant.changeTableStatus(tableToReturn.getMasaNumarasi());
+		RestoranYonetimSistemi.masaDurumlariniGuncelle(tableToReturn.getMasaNumarasi());
 		return tableToReturn;
 	}
 	
@@ -49,8 +51,8 @@ public class Masalar {
 				if (i == table.getMasaNumarasi()) {
 					masalarListesi[i] = null;
 					doluMasaSayisi--;
-					//Restaurant.addMessage("Table " + table.getMasaNumarasi() + " is now available.");
-					//Restaurant.changeTableStatus(table.getMasaNumarasi());
+					RestoranYonetimSistemi.mesajEkle("Masa: "+table.getMasaNumarasi()+" uygun");
+					RestoranYonetimSistemi.masaDurumlariniGuncelle(table.getMasaNumarasi());
 					uygunMasaYok.signal();
 				}
 			}

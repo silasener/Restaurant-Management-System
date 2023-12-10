@@ -19,7 +19,7 @@ public class Koordinasyon {
 	public Masa seatCustomer(MusteriThread musteriThread) {
 		Masa masa = null;
 		try {
-			RestoranYonetimSistemi.mesajEkle("Koordinasyon , müşteriyi oturtmaya çalışıyor" + musteriThread.getMusteriNumarasi());
+			RestoranYonetimSistemi.mesajEkle("Müşteri:" + musteriThread.getMusteriNumarasi()+" beklemede ve uygun masa bekliyor");
 			/* Here, customer is about to wait for a table... add him to waiting label*/
 			RestoranYonetimSistemi.bekleyenMusteriEkle(musteriThread.getMusteriNumarasi());
 			masa = masalar.getTable();
@@ -42,7 +42,7 @@ public class Koordinasyon {
 
 			RestoranYonetimSistemi.garsonMesajiEkle("Garson " +garson.getGarsonunNumarasi() + " aldığı sipariş:   " + order.getOrderText() +" ve aldığı masa "+ order.getMasa().getMasaNumarasi(),garson.getGarsonunNumarasi());
 
-			RestoranYonetimSistemi.mesajEkle("Koordinasyonun oturttuğu müşteri: " + musteriThread.getMusteriNumarasi() + "ve masası: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
+			RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
 
 
 		} catch (InterruptedException ie) {
