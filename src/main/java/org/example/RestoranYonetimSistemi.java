@@ -1,6 +1,7 @@
 package org.example;
 import org.example.asci.CookFactory;
 import org.example.garson.GarsonUret;
+import org.example.musteri.MusteriThread;
 import org.example.musteri.MusteriUret;
 
 import java.awt.*;
@@ -61,17 +62,17 @@ public class RestoranYonetimSistemi  extends JFrame {
 
        baslat .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                if (baslat.getText().equals("Start Restaurant")) {
+                if (baslat.getText().equals("BAŞLAT")) {
 //waiterPanel kodunu yazmadım
 
                     StringBuilder bosMasalarinNumaralari = new StringBuilder("Boş Masalar: ");
-                    for (int i = 0; i < getMasaNumaralari() - 1; i++) {
+                    for (int i = 1; i < getMasaNumaralari(); i++) {
                         bosMasalarinNumaralari.append(i).append(" ,");
                     }
-                    bosMasalarinNumaralari.append(getMasaNumaralari() - 1); //son masanın numarası
+                    bosMasalarinNumaralari.append(getMasaNumaralari()); //son masanın numarası
                     bosMasaLabel.setText(bosMasalarinNumaralari.toString());
 
-                    baslat.setText("Stop Restaurant");
+                    baslat.setText("DURDUR");
                     masaDurumu= new boolean [getMasaNumaralari()];
                     garsonlar= new JTextArea[getGarsonNumaralari()];
                     garsonPanel= new JPanel();
@@ -92,6 +93,10 @@ public class RestoranYonetimSistemi  extends JFrame {
 
 
 
+                }else if (baslat.getText().equals("DURDUR")) {
+                    //remove(waitersPanel);
+                    musteriUret.interrupt();
+                    baslat.setText("BAŞLAT");
                 }
             }
        });
@@ -106,11 +111,8 @@ public class RestoranYonetimSistemi  extends JFrame {
         add(panel, BorderLayout.NORTH);
         add(kaydirilabilirMetin, BorderLayout.CENTER);
 
-       // cookPanel = new CookPanel();
-      //  add(cookPanel,BorderLayout.EAST);
-
-        //JPanel asciPanel = new AsciPanel();
-       // add(asciPanel,BorderLayout.EAST);
+         cookPanel = new CookPanel();
+         add(cookPanel,BorderLayout.EAST);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 500);

@@ -23,6 +23,5 @@ public class CookPanel extends JPanel{
 		else {
 			cookPanelMessages.setText(cookPanelMessages.getText() + "\n" + msg);
 		}
-		
 	}
 }
