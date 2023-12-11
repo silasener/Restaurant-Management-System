@@ -11,10 +11,8 @@ public class AsciThread extends Thread {
     private int asciNumarasi;
     private AsciPanel asciPanel;
     private AsciUret asciUret;
-
     private Lock asciLock = new ReentrantLock();
     private Condition siparisTamamlamaCondition = asciLock.newCondition();
-
 
     public AsciThread(int asciNumarasi, AsciPanel asciPanel, AsciUret asciUret) {
         this.asciNumarasi = asciNumarasi;
@@ -27,27 +25,22 @@ public class AsciThread extends Thread {
             asciPanel.asciMesajiEkle( "Aşçı " + asciNumarasi + " yemek yapmaya hazır" );
             try {
                 if(!AsciUret.hazirlanacakSiparisleriGetir().isEmpty()){ //sipariş varsa çalışır  hazirlanacakSiparisleriGetir()==order
-
                     this.asciLock.lock();
-
-                    Siparis o = AsciUret.hazirlanacakSiparisleriGetir().get(0); //order=; garson,aşçı,masa,sipariş
+                    Siparis siparis = AsciUret.hazirlanacakSiparisleriGetir().get(0); //order=; garson,aşçı,masa,sipariş
                     AsciUret.hazirlanacakSiparisleriGetir().remove(0);
-                    asciPanel.asciMesajiEkle("Aşçı: "+ asciNumarasi + " ve alınan sipariş " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi()+" garsonu :"+o.getGarsonThread().getGarsonunNumarasi());
+                    asciPanel.asciMesajiEkle("Aşçı: "+ asciNumarasi + " ve alınan sipariş " + siparis.getSiparisTutari()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
                     Thread.sleep(3000); // aşçının yemek yapma süresi 3 sn
-
-                    asciPanel.asciMesajiEkle("Aşçı:  " + asciNumarasi + " ve tamamladığı siparşi " + o.getOrderText()+ " ve siparişin masası " +o.getMasa().getMasaNumarasi()+" garsonu :"+o.getGarsonThread().getGarsonunNumarasi());
-
+                    asciPanel.asciMesajiEkle("Aşçı:  " + asciNumarasi + " ve tamamladığı siparşi " + siparis.getSiparisTutari()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
                     this.asciLock.unlock();
                 }
                 else{
                     Thread.sleep(1000 * (int)(Math.random() * 20));
                 }
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
+
+
 }

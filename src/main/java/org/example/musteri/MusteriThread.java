@@ -9,7 +9,7 @@ public class MusteriThread extends Thread{
     private int musteriNumarasi;
     private Koordinasyon koordinasyonThreadi;
     private Masa masa;
-    private Siparis order;
+    private Siparis siparis;
 
 
     public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi) {
@@ -18,8 +18,8 @@ public class MusteriThread extends Thread{
         this.start();
     }
 
-    public void setSiparis(Siparis o){
-        this.order = o;
+    public void setSiparis(Siparis siparis){
+        this.siparis = siparis;
     }
 
     public Masa getMasa() {return this.masa;}
@@ -31,7 +31,7 @@ public class MusteriThread extends Thread{
             masa = koordinasyonThreadi.musteriYerlestir(this);
             Thread.sleep(1000 * (int)(Math.random() * 10)); // sleep for between 0 and 10 seconds
             if(koordinasyonThreadi != null){
-                RestoranYonetimSistemi.mesajEkle("Müşteri : "+ musteriNumarasi +" ve siparişi:  "+order.getOrderText() +" ve masası "+ getMasa().getMasaNumarasi());
+                RestoranYonetimSistemi.mesajEkle("Müşteri : "+ musteriNumarasi +" ve siparişi:  "+ siparis.getSiparisTutari() +" ve masası "+ getMasa().getMasaNumarasi());
                 RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + this.getMusteriNumarasi() + " yemek yiyor ", this.getMasa().getGarsonThread().getGarsonunNumarasi());
                 Thread.sleep(3000);
                 koordinasyonThreadi.musteriAyriliyor(this);

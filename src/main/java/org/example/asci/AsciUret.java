@@ -10,12 +10,10 @@ public class AsciUret {
 
     public AsciUret(AsciPanel asciPanel, int asciSayisi) {
         hazirlanacakSiparisler = new Vector<Siparis>();
-
         for (int i = 0; i< asciSayisi; i++ ) {
             AsciThread asciThread = new AsciThread( i, asciPanel, this ); //aşçılar için thread oluşturur
             asciThread.start();
         }
-
     }
 
     public void yeniSiparisEkle(Siparis o) { //sipariş oluşturur: garson, aşçı,masa tutar=order

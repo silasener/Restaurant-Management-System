@@ -1,4 +1,5 @@
 package org.example;
+import org.example.Kasa.KasaThread;
 import org.example.asci.AsciUret;
 import org.example.garson.GarsonUret;
 import org.example.musteri.MusteriUret;
@@ -28,6 +29,10 @@ public class RestoranYonetimSistemi  extends JFrame {
     private static JLabel doluMasaLabel;
     private static JFrame kasaLog;
     private static  JTextArea kasaLogTextArea;
+    private JLabel musteriSayisiLabel;
+    public static JTextField musteriSayisiField;
+    private JLabel toplamOdemeLabel;
+    public static JTextField toplamOdemeField;
 
 
 
@@ -97,12 +102,37 @@ public class RestoranYonetimSistemi  extends JFrame {
 
                     kasaLog=new JFrame();
                     kasaLog.setTitle("KASA");
-                    kasaLog.setSize(300,200);
-                    kasaLogTextArea= new JTextArea("", 20, 40);
+                    kasaLog.setSize(400, 300);
+                    kasaLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                    kasaLogTextArea = new JTextArea("", 20, 40);
                     kasaLogTextArea.setLineWrap(false);
-                    kasaLogTextArea.setFont((new Font("Arial",Font.PLAIN, 12)));
+                    kasaLogTextArea.setFont(new Font("Arial", Font.PLAIN, 12));
+
+                    musteriSayisiLabel = new JLabel("Ödeme Yapan Müşteri Sayısı:");
+                    musteriSayisiField = new JTextField(10);
+                    musteriSayisiField.setEditable(false);
+                    musteriSayisiField.setText(String.valueOf(KasaThread.getOdemeYapanToplamMusteriSayisi()));
+
+                    toplamOdemeLabel = new JLabel("Toplam Ödeme Miktarı:");
+                    toplamOdemeField = new JTextField(10);
+                    toplamOdemeField.setEditable(false);
+                    toplamOdemeField.setText(String.valueOf(KasaThread.getSiparisTutari()));
+
                     JScrollPane kasaLogScrollPane = new JScrollPane(kasaLogTextArea);
-                    kasaLog.add(kasaLogScrollPane);
+
+                    kasaLog.setLayout(new BorderLayout());
+
+                    JPanel panelKasa = new JPanel();
+                    panelKasa.setLayout(new GridLayout(3, 2));
+                    panelKasa.add(musteriSayisiLabel);
+                    panelKasa.add(musteriSayisiField);
+                    panelKasa.add(toplamOdemeLabel);
+                    panelKasa.add(toplamOdemeField);
+
+                    kasaLog.add(panelKasa, BorderLayout.NORTH);
+                    kasaLog.add(kasaLogScrollPane, BorderLayout.CENTER);
+
                     kasaLog.setVisible(true);
 
 

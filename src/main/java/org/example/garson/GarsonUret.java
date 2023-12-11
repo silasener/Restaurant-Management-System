@@ -14,7 +14,7 @@ public class GarsonUret { //garsonfactory
     private int garsonunIlgilenebilecegiMasaSayisi;
     private Koordinasyon koordinasyon;
     private Lock lock = new ReentrantLock();
-    private Condition waiterAvailable = lock.newCondition();
+    private Condition garsonUygunluguCondition = lock.newCondition();
 
     public GarsonUret(Koordinasyon koordinasyon, int garsonSayisi) {
         this.koordinasyon = koordinasyon;
@@ -42,7 +42,7 @@ public class GarsonUret { //garsonfactory
                     }
                 }
                 if (i == garsonThreadVectorleri.size()) {
-                    waiterAvailable.await();
+                    garsonUygunluguCondition.await();
                 }
             }
         } catch(InterruptedException ie) {

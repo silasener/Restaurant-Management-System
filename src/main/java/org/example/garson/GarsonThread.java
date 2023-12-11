@@ -15,19 +15,19 @@ public class GarsonThread extends Thread{
     private Koordinasyon koordinasyon;
     private Vector<Masa> masalar;
     private int garsonunNumarasi;
-    private GarsonUret waiterFactory;
+    private GarsonUret garsonUret;
     private Semaphore garsonAktifHizmetSemaphore;
-    private Lock waiterLock = new ReentrantLock();
-    private Condition masaAtamaCondition = waiterLock.newCondition();
-    private Condition siparisTamamlamaCondition = waiterLock.newCondition();
-    private Siparis order;
+    private Lock garsonLock = new ReentrantLock();
+    private Condition masaAtamaCondition = garsonLock.newCondition();
+    private Condition siparisTamamlamaCondition = garsonLock.newCondition();
+    private Siparis siparis;
 
 
 
-    public GarsonThread(Koordinasyon koordinasyon, int garsonunNumarasi, GarsonUret waiterFactory, int garsonunIlgilenebilecegiMasaSayisi) {
+    public GarsonThread(Koordinasyon koordinasyon, int garsonunNumarasi, GarsonUret garsonUret, int garsonunIlgilenebilecegiMasaSayisi) {
         this.koordinasyon = koordinasyon;
         this.garsonunNumarasi = garsonunNumarasi;
-        this.waiterFactory = waiterFactory;
+        this.garsonUret = garsonUret;
         this.garsonAktifHizmetSemaphore = new Semaphore(garsonunIlgilenebilecegiMasaSayisi);
         masalar = new Vector<Masa>(garsonunIlgilenebilecegiMasaSayisi);
         this.start();
@@ -42,9 +42,9 @@ public class GarsonThread extends Thread{
         try {
             garsonAktifHizmetSemaphore.acquire();
             masalar.add(masa);
-            this.waiterLock.lock();
+            this.garsonLock.lock();
             this.masaAtamaCondition.signalAll();
-            this.waiterLock.unlock();
+            this.garsonLock.unlock();
 
         } catch (InterruptedException ie) {
             System.out.println("WaiterFactory.setTable(" + masa.getMasaNumarasi() + ") IE: " + ie.getMessage());
@@ -57,11 +57,11 @@ public class GarsonThread extends Thread{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        this.order = o;
+        this.siparis = o;
     }
 
     public Siparis returnSiparis(){
-        return order;
+        return siparis;
     }
 
     public int getGarsonunNumarasi() {return this.garsonunNumarasi;}
@@ -83,19 +83,16 @@ public class GarsonThread extends Thread{
     public void run() {
         try {
             while (true) {
-                // waiter can only have one table currently
-                // wait until notified, meaning that a table has been seated
-                // i don't think i always want to do this - what if a table has already been set?
-                this.waiterLock.lock();
-                this.masaAtamaCondition.await();
-                this.siparisTamamlamaCondition.await();
-                this.waiterLock.unlock();
+                this.garsonLock.lock();
+                this.masaAtamaCondition.await(); //Garson, bir masa atanana kadar bekler , masa atanır
+                this.siparisTamamlamaCondition.await(); //müşterinin siparişi tamamlanana kadar bekler.
+                this.garsonLock.unlock();
                 Thread.sleep(1000 * (int)(Math.random() * 10)); // sleep for between 0 and 10 seconds
-                if (getMasa(0) != null) {
+                if (getMasa(0) != null) { // Garsonun ilgilendiği masalar içinde en az bir masa varsa
                     getMasa(0).getLock().lock();
                     // signal the customer who is "eating"
-                    getMasa(0).getHazirCondition().signal();
-                    RestoranYonetimSistemi.garsonMesajiEkle("Garson: "+getGarsonunNumarasi()+" siparişi "+ returnSiparis().getOrderText()+" masası "+order.getMasa().getMasaNumarasi(),getGarsonunNumarasi());
+                    getMasa(0).getHazirCondition().signal(); //Masanın  müşterisine "yemek hazır"
+                    RestoranYonetimSistemi.garsonMesajiEkle("Garson: "+getGarsonunNumarasi()+" siparişi "+ returnSiparis().getSiparisTutari()+" masası "+ siparis.getMasa().getMasaNumarasi(),getGarsonunNumarasi());
                     getMasa(0).getLock().unlock();
                 }
             }

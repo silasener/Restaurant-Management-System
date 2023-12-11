@@ -23,13 +23,13 @@ public class Siparis {
 		return musteriNumarasi;
 	}
 	
-	public String getOrderText() {
+	public Integer getSiparisTutari() {
 		if ( siparis == 0 ) {
-			return "menemen";
+			return 10;
 		} else if ( siparis == 1 ) {
-			return "çorba";
+			return 20;
 		}
-		return "makarna";
+		return 30;
 	}
 	
 	public GarsonThread getGarsonThread() {

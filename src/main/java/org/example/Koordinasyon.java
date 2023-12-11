@@ -41,7 +41,7 @@ public class Koordinasyon {
 			RestoranYonetimSistemi.hizmetVerilenMusteriEkle(musteriThread.getMusteriNumarasi());
 			RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
 
-			RestoranYonetimSistemi.garsonMesajiEkle("Garson " +garson.getGarsonunNumarasi() + " aldığı sipariş:   " + order.getOrderText() +" ve aldığı masa "+ order.getMasa().getMasaNumarasi(),garson.getGarsonunNumarasi());
+			RestoranYonetimSistemi.garsonMesajiEkle("Garson " +garson.getGarsonunNumarasi() + " aldığı sipariş tutarı: " + order.getSiparisTutari() +" ve aldığı masa "+ order.getMasa().getMasaNumarasi(),garson.getGarsonunNumarasi());
 
 			RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
 
