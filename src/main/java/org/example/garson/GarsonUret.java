@@ -46,7 +46,7 @@ public class GarsonUret { //garsonfactory
                 }
             }
         } catch(InterruptedException ie) {
-            System.out.println("WaiterFactory.getGarson(): IE : " + ie.getMessage());
+            System.out.println("WaiterFactory.getGarsonThread(): IE : " + ie.getMessage());
         } finally {
             lock.unlock();
         }

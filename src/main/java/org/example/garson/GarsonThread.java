@@ -2,7 +2,7 @@ package org.example.garson;
 
 import org.example.Koordinasyon;
 import org.example.Masa;
-import org.example.Order;
+import org.example.Siparis;
 import org.example.RestoranYonetimSistemi;
 
 import java.util.Vector;
@@ -20,7 +20,7 @@ public class GarsonThread extends Thread{
     private Lock waiterLock = new ReentrantLock();
     private Condition masaAtamaCondition = waiterLock.newCondition();
     private Condition siparisTamamlamaCondition = waiterLock.newCondition();
-    private Order order;
+    private Siparis order;
 
 
 
@@ -51,18 +51,16 @@ public class GarsonThread extends Thread{
         }
     }
 
-    public void setSiparis(Order o){
+    public void setSiparis(Siparis o){
         try {
-            System.out.println("garson sipariş alıyor 2 sn boyunca");
             Thread.sleep(2000); //garson 2 saniye sipariş alıyor
-            System.out.println("garson sipariş aldı");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         this.order = o;
     }
 
-    public Order returnSiparis(){
+    public Siparis returnSiparis(){
         return order;
     }
 
@@ -96,7 +94,7 @@ public class GarsonThread extends Thread{
                 if (getMasa(0) != null) {
                     getMasa(0).getLock().lock();
                     // signal the customer who is "eating"
-                    getMasa(0).getReadyCondition().signal();
+                    getMasa(0).getHazirCondition().signal();
                     RestoranYonetimSistemi.garsonMesajiEkle("Garson: "+getGarsonunNumarasi()+" siparişi "+ returnSiparis().getOrderText()+" masası "+order.getMasa().getMasaNumarasi(),getGarsonunNumarasi());
                     getMasa(0).getLock().unlock();
                 }

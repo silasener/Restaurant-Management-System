@@ -2,14 +2,14 @@ package org.example.musteri;
 
 import org.example.Koordinasyon;
 import org.example.Masa;
-import org.example.Order;
+import org.example.Siparis;
 import org.example.RestoranYonetimSistemi;
 
 public class MusteriThread extends Thread{
     private int musteriNumarasi;
     private Koordinasyon koordinasyonThreadi;
     private Masa masa;
-    private Order order;
+    private Siparis order;
 
 
     public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi) {
@@ -18,7 +18,7 @@ public class MusteriThread extends Thread{
         this.start();
     }
 
-    public void setSiparis(Order o){
+    public void setSiparis(Siparis o){
         this.order = o;
     }
 
@@ -28,7 +28,7 @@ public class MusteriThread extends Thread{
 
     public void run() {
         try {
-            masa = koordinasyonThreadi.seatCustomer(this);
+            masa = koordinasyonThreadi.musteriYerlestir(this);
             Thread.sleep(1000 * (int)(Math.random() * 10)); // sleep for between 0 and 10 seconds
             if(koordinasyonThreadi != null){
                 RestoranYonetimSistemi.mesajEkle("Müşteri : "+ musteriNumarasi +" ve siparişi:  "+order.getOrderText() +" ve masası "+ getMasa().getMasaNumarasi());

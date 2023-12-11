@@ -1,5 +1,5 @@
 package org.example;
-import org.example.asci.CookFactory;
+import org.example.asci.AsciUret;
 import org.example.garson.GarsonUret;
 import org.example.musteri.MusteriUret;
 
@@ -15,16 +15,15 @@ public class RestoranYonetimSistemi  extends JFrame {
     private JComboBox<Integer> asciSayisiCombobox, garsonSayisiCombobox, masaSayisiCombobox;
     private static JTextArea metin;
     private static boolean[] masaDurumu;
-    private static JTextArea garsonlar[];
-    private static JTextArea kasa;
+    private static JTextArea[] garsonlar;
     private static  RestaurantListLabel bekleyenMusterilerLabel;
     private static  RestaurantListLabel yerlestirilenMusterilerLabel;
     private static  RestaurantListLabel hizmetVerilenMusterilerLabel;
     private JPanel garsonPanel;
     private static GarsonUret garsonUret;
     private MusteriUret musteriUret;
-    public static CookFactory cookFactory;
-    private CookPanel cookPanel;
+    public static AsciUret asciUret;
+    private AsciPanel asciPanel;
     private static JLabel bosMasaLabel;
     private static JLabel doluMasaLabel;
     private static JFrame kasaLog;
@@ -87,14 +86,14 @@ public class RestoranYonetimSistemi  extends JFrame {
                         garsonPanel.add(jsp);
                     }
 
-                    cookPanel=new CookPanel();
+                    asciPanel =new AsciPanel();
 
                     add(garsonPanel, BorderLayout.SOUTH);
 
                     Koordinasyon koordine = new Koordinasyon(getMasaNumaralari());
                     garsonUret = new GarsonUret(koordine, getGarsonNumaralari()); //garson
                     musteriUret= new MusteriUret(koordine); //müşteri
-                    cookFactory = new CookFactory(cookPanel,getAsciNumaralari());  //aşçı
+                    asciUret = new AsciUret(asciPanel,getAsciNumaralari());  //aşçı
 
                     kasaLog=new JFrame();
                     kasaLog.setTitle("KASA");
@@ -108,7 +107,6 @@ public class RestoranYonetimSistemi  extends JFrame {
 
 
                 }else if (baslat.getText().equals("DURDUR")) {
-                    //remove(waitersPanel);
                     musteriUret.interrupt();
                     baslat.setText("BAŞLAT");
                 }
@@ -121,15 +119,22 @@ public class RestoranYonetimSistemi  extends JFrame {
         metin.setFont(new Font("Arial",Font.PLAIN, 12));
         JScrollPane kaydirilabilirMetin = new JScrollPane(metin); // metin'in kaydırılabilir bir panel içinde görüntülenmesi sağlanır
 
-
         add(panel, BorderLayout.NORTH);
         add(kaydirilabilirMetin, BorderLayout.CENTER);
-
-
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 500);
         setVisible(true);
+    }
+
+    public static void main(String [] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException
+                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        new RestoranYonetimSistemi();
     }
 
 
@@ -151,15 +156,6 @@ public class RestoranYonetimSistemi  extends JFrame {
         panel.add(jc, gbc);
     }
 
-    public static void main(String [] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException
-                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-        new RestoranYonetimSistemi();
-    }
 
     public int getMasaNumaralari() {return masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());}
 
@@ -219,21 +215,16 @@ public class RestoranYonetimSistemi  extends JFrame {
         StringBuilder doluMasaBuilder = new StringBuilder("Dolu Masalar: ");
 
         for (int i = 0; i < masaDurumu.length; i++) {
-            if (!masaDurumu[i]) {
-                bosMasaBuilder.append(i + ", ");
-            }else{
-                doluMasaBuilder.append(i + ", ");
-            }
+            if (!masaDurumu[i]) {bosMasaBuilder.append(i + ", ");
+            }else{doluMasaBuilder.append(i + ", ");}
         }
 
         if (bosMasaBuilder.toString().contains(",")) {
             bosMasaBuilder.replace(bosMasaBuilder.lastIndexOf(","), bosMasaBuilder.lastIndexOf(",") + 1, "");
         }
-
         if (doluMasaBuilder.toString().contains(",")) {
             doluMasaBuilder.replace(doluMasaBuilder.lastIndexOf(","), doluMasaBuilder.lastIndexOf(",") + 1, "");
         }
-
         bosMasaLabel.setText(bosMasaBuilder.toString());
         doluMasaLabel.setText(doluMasaBuilder.toString());
     }

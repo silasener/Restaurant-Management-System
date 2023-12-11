@@ -17,7 +17,7 @@ public class Koordinasyon {
 
 
 
-	public Masa seatCustomer(MusteriThread musteriThread) {
+	public Masa musteriYerlestir(MusteriThread musteriThread) {
 		Masa masa = null;
 		try {
 			RestoranYonetimSistemi.mesajEkle("Müşteri:" + musteriThread.getMusteriNumarasi()+" beklemede ve uygun masa bekliyor");
@@ -32,8 +32,8 @@ public class Koordinasyon {
 			// changes
 			Random rand = new Random();
 			int randomOrder = rand.nextInt(2);
-			Order order = new Order( randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
-			RestoranYonetimSistemi.cookFactory.appendNewOrder(order);  //aşçının siparişi oluşur
+			Siparis order = new Siparis( randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
+			RestoranYonetimSistemi.asciUret.yeniSiparisEkle(order);  //aşçının siparişi oluşur
 			garson.setSiparis(order);
 			musteriThread.setSiparis(order);
 
@@ -47,7 +47,7 @@ public class Koordinasyon {
 
 
 		} catch (InterruptedException ie) {
-			System.out.println("HostessThread.seatCustomer():InterruptedException: " + ie.getMessage());
+			System.out.println("HostessThread.musteriYerlestir():InterruptedException: " + ie.getMessage());
 		}
 		return masa;
 	}

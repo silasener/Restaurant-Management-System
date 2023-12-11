@@ -10,19 +10,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Masa {
 
-	private int tableNumber;
+	private int masaNumarasi;
 	private MusteriThread musteriThread;
 	private GarsonThread garsonThread;
 	private Lock lock = new ReentrantLock();
-	private Condition readyCondition = lock.newCondition();
+	private Condition hazirCondition = lock.newCondition();
 
-	public Masa(int tableNumber) {
-		this.tableNumber = tableNumber;
+	public Masa(int masaNumarasi) {
+		this.masaNumarasi = masaNumarasi;
 	}
 	
-	public int getMasaNumarasi() {
-		return this.tableNumber;
-	}
+	public int getMasaNumarasi() {return this.masaNumarasi;}
 
 	public MusteriThread getMusteriThread() {return musteriThread;}
 
@@ -32,9 +30,7 @@ public class Masa {
 		return lock;
 	}
 	
-	public Condition getReadyCondition() {
-		return readyCondition;
-	}
+	public Condition getHazirCondition() {return hazirCondition;}
 
 	public void masayaOturtveIlgilen(MusteriThread musteriThread, GarsonThread garsonThread) {
 		this.musteriThread = musteriThread;
