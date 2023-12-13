@@ -18,7 +18,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     private static boolean[] masaDurumu;
     private static JTextArea[] garsonlar;
     private static  RestaurantListLabel bekleyenMusterilerLabel;
-    private static  RestaurantListLabel yerlestirilenMusterilerLabel;
+    private static  RestaurantListLabel odemeYapipAyrilanMusterilerLabel;
     private static  RestaurantListLabel hizmetVerilenMusterilerLabel;
     private JPanel garsonPanel;
     private static GarsonUret garsonUret;
@@ -33,6 +33,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     public static JTextField musteriSayisiField;
     private JLabel toplamOdemeLabel;
     public static JTextField toplamOdemeField;
+    private  JButton grupCagir;
 
 
 
@@ -54,6 +55,9 @@ public class RestoranYonetimSistemi  extends JFrame {
         comboboxEkle(panel, asciSayisiLabel, asciSayisiCombobox, 4, 0);
         JButton baslat = new JButton("BAŞLAT");
         componentEkle(panel, baslat, 6, 0, GridBagConstraints.CENTER, 2, 1);
+        grupCagir = new JButton("grup çağır");
+        componentEkle(panel, grupCagir, 8, 0, GridBagConstraints.CENTER, 2, 1);
+        grupCagir.setEnabled(false);
 
         bosMasaLabel = new JLabel("Boş Masalar: ");
         componentEkle(panel,bosMasaLabel,0,3,GridBagConstraints.CENTER,2,1);
@@ -62,16 +66,24 @@ public class RestoranYonetimSistemi  extends JFrame {
         ReentrantLock threadKontrolu = new ReentrantLock();
         bekleyenMusterilerLabel = new RestaurantListLabel("Bekleyen Müşteriler: ", threadKontrolu);
         componentEkle(panel,bekleyenMusterilerLabel,0,4,GridBagConstraints.CENTER,2,1);
-        yerlestirilenMusterilerLabel  = new RestaurantListLabel("Yerleştirilen Müşteriler: ", threadKontrolu);
-        componentEkle(panel,yerlestirilenMusterilerLabel,0,5,GridBagConstraints.CENTER,2,1);
+        odemeYapipAyrilanMusterilerLabel = new RestaurantListLabel("Ödeme Yapıp Ayrılan Müşteriler: ", threadKontrolu);
+        componentEkle(panel, odemeYapipAyrilanMusterilerLabel,0,5,GridBagConstraints.CENTER,2,1);
         hizmetVerilenMusterilerLabel  = new RestaurantListLabel("Hizmet Verilen Müşteriler: ", threadKontrolu);
         componentEkle(panel,hizmetVerilenMusterilerLabel,0,6,GridBagConstraints.CENTER,2,1);
 
+        grupCagir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               musteriUret.musteriGrubuCagir();
+            }
+        });
 
 
        baslat .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 if (baslat.getText().equals("BAŞLAT")) {
+                    grupCagir.setEnabled(true);
+
                     baslat.setText("DURDUR");
                     StringBuilder bosMasalarinNumaralari = new StringBuilder("Boş Masalar: ");
                     for (int i = 1; i < getMasaNumaralari(); i++) {
@@ -98,6 +110,7 @@ public class RestoranYonetimSistemi  extends JFrame {
                     Koordinasyon koordine = new Koordinasyon(getMasaNumaralari());
                     garsonUret = new GarsonUret(koordine, getGarsonNumaralari()); //garson
                     musteriUret= new MusteriUret(koordine); //müşteri
+                    musteriUret.musteriGrubuCagir();
                     asciUret = new AsciUret(asciPanel,getAsciNumaralari());  //aşçı
 
                     kasaLog=new JFrame();
@@ -157,15 +170,6 @@ public class RestoranYonetimSistemi  extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String [] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException
-                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-        new RestoranYonetimSistemi();
-    }
 
 
     private void comboboxEkle(JPanel panel, JLabel label, JComboBox<Integer> jcb, int x, int y) {
@@ -236,7 +240,7 @@ public class RestoranYonetimSistemi  extends JFrame {
 
     public static void musteriAyrilacakLabelGuncelle(int musteriNumarasi){
         hizmetVerilenMusterilerLabel.remove(musteriNumarasi);
-        yerlestirilenMusterilerLabel.add(musteriNumarasi);
+        odemeYapipAyrilanMusterilerLabel.add(musteriNumarasi);
     }
 
     public static void masaDurumlariniGuncelle(int masaNumarasi) {

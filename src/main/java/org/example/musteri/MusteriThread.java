@@ -10,12 +10,18 @@ public class MusteriThread extends Thread{
     private Koordinasyon koordinasyonThreadi;
     private Masa masa;
     private Siparis siparis;
+    private boolean oncelikliMusteri;
 
 
-    public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi) {
+    public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi,boolean oncelikliMusteri) {
         this.musteriNumarasi = musteriNumarasi;
         this.koordinasyonThreadi = koordinasyonThreadi;
+        this.oncelikliMusteri=oncelikliMusteri;
         this.start();
+    }
+
+    public Siparis getSiparis() {
+        return siparis;
     }
 
     public void setSiparis(Siparis siparis){

@@ -22,18 +22,17 @@ public class AsciThread extends Thread {
 
     public void run() { //aşçı threadleri oluşturunca hep çalışmaya başlar
         while(true){
-            asciPanel.asciMesajiEkle( "Aşçı " + asciNumarasi + " yemek yapmaya hazır" );
             try {
                 if(!AsciUret.hazirlanacakSiparisleriGetir().isEmpty()){ //sipariş varsa çalışır  hazirlanacakSiparisleriGetir()==order
                     this.asciLock.lock();
                     Siparis siparis = AsciUret.hazirlanacakSiparisleriGetir().get(0); //order=; garson,aşçı,masa,sipariş
+                    asciPanel.asciMesajiEkle("Aşçı: "+ asciNumarasi + " ve alınan sipariş " + siparis.getSiparisNo()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
                     AsciUret.hazirlanacakSiparisleriGetir().remove(0);
-                    asciPanel.asciMesajiEkle("Aşçı: "+ asciNumarasi + " ve alınan sipariş " + siparis.getSiparisTutari()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
                     Thread.sleep(3000); // aşçının yemek yapma süresi 3 sn
-                    asciPanel.asciMesajiEkle("Aşçı:  " + asciNumarasi + " ve tamamladığı siparşi " + siparis.getSiparisTutari()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
+                    asciPanel.asciMesajiEkle("Aşçı:  " + asciNumarasi + " ve tamamladığı siparşi " + siparis.getSiparisNo()+ " ve siparişin masası " + siparis.getMasa().getMasaNumarasi()+" garsonu :"+ siparis.getGarsonThread().getGarsonunNumarasi());
                     this.asciLock.unlock();
-                }
-                else{
+                    asciPanel.asciMesajiEkle( "Aşçı " + asciNumarasi + " yemek yapmaya hazır" );
+                }else{
                     Thread.sleep(1000 * (int)(Math.random() * 20));
                 }
             } catch (InterruptedException e) {

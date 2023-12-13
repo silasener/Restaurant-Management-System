@@ -29,7 +29,11 @@ public class Koordinasyon {
 			garson.setMasa(masa);
 			masa.masayaOturtveIlgilen(musteriThread, garson);
 
-			// changes
+			//müşteri oturur
+			RestoranYonetimSistemi.hizmetVerilenMusteriEkle(musteriThread.getMusteriNumarasi());
+			RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
+
+			// müşteri sipariş verir
 			Random rand = new Random();
 			int randomOrder = rand.nextInt(2);
 			Siparis order = new Siparis( randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
@@ -37,12 +41,7 @@ public class Koordinasyon {
 			garson.setSiparis(order);
 			musteriThread.setSiparis(order);
 
-			/* Here, customer is seated */
-			RestoranYonetimSistemi.hizmetVerilenMusteriEkle(musteriThread.getMusteriNumarasi());
-			RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
-
 			RestoranYonetimSistemi.garsonMesajiEkle("Garson " +garson.getGarsonunNumarasi() + " aldığı sipariş tutarı: " + order.getSiparisTutari() +" ve aldığı masa "+ order.getMasa().getMasaNumarasi(),garson.getGarsonunNumarasi());
-
 			RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
 
 

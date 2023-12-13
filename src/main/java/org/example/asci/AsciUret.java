@@ -19,6 +19,7 @@ public class AsciUret {
     public void yeniSiparisEkle(Siparis o) { //sipariş oluşturur: garson, aşçı,masa tutar=order
         hazirlanacakSiparisler.add(o);
     }
+
     public static Vector<Siparis> hazirlanacakSiparisleriGetir(){
         return hazirlanacakSiparisler;
     }
