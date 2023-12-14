@@ -2,12 +2,19 @@ package org.example;
 import org.example.Kasa.KasaThread;
 import org.example.asci.AsciUret;
 import org.example.garson.GarsonUret;
+import org.example.musteri.MusteriThread;
 import org.example.musteri.MusteriUret;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 
@@ -34,6 +41,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     private JLabel toplamOdemeLabel;
     public static JTextField toplamOdemeField;
     private  JButton grupCagir;
+    public static boolean oncelikliMusterilerBitirildi = false;
 
 
 
@@ -74,7 +82,8 @@ public class RestoranYonetimSistemi  extends JFrame {
         grupCagir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               musteriUret.musteriGrubuCagir();
+                RestoranYonetimSistemi.oncelikliMusterilerBitirildi=false;
+                musteriUret.musteriGrubuCagir();
             }
         });
 
@@ -262,6 +271,23 @@ public class RestoranYonetimSistemi  extends JFrame {
         bosMasaLabel.setText(bosMasaBuilder.toString());
         doluMasaLabel.setText(doluMasaBuilder.toString());
     }
+
+    public static List<MusteriThread> bekleyenMusteriler() {
+        List<Integer> musteriNumaralari = new ArrayList<>();
+
+        String bekleyenMusterilerText = bekleyenMusterilerLabel.getText();
+
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(bekleyenMusterilerText);
+
+        while (matcher.find()) {
+            int numara = Integer.parseInt(matcher.group());
+            musteriNumaralari.add(numara);
+        }
+        List<MusteriThread> bekleyenMusterilerList=MusteriUret.musteriThreadVectorleri.stream().filter(musteriThread -> musteriNumaralari.contains(musteriThread.getMusteriNumarasi())).collect(Collectors.toList());
+        return  bekleyenMusterilerList;
+    }
+
 
 
 }

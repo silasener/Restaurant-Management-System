@@ -22,7 +22,7 @@ public class Koordinasyon {
 		try {
 			RestoranYonetimSistemi.mesajEkle("Müşteri:" + musteriThread.getMusteriNumarasi()+" beklemede ve uygun masa bekliyor");
 			/* Here, customer is about to wait for a table... add him to waiting label*/
-			RestoranYonetimSistemi.bekleyenMusteriEkle(musteriThread.getMusteriNumarasi());
+			//RestoranYonetimSistemi.bekleyenMusteriEkle(musteriThread.getMusteriNumarasi());
 			masa = masalar.getTable();
 
 			GarsonThread garson = RestoranYonetimSistemi.getGarsonUret().getGarson();
@@ -54,6 +54,10 @@ public class Koordinasyon {
 
 	public void musteriAyriliyor(MusteriThread musteriThread) {
 		RestoranYonetimSistemi.musteriAyrilacakLabelGuncelle(musteriThread.getMusteriNumarasi());
+		boolean tumuOnceliksiz =RestoranYonetimSistemi.bekleyenMusteriler().stream().allMatch(musteriKayit -> !musteriKayit.isOncelikliMusteri());
+		if(tumuOnceliksiz){
+			RestoranYonetimSistemi.oncelikliMusterilerBitirildi=true;
+		}
 		RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
 		RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " yemek yedi ve ayrılıyor.");
 		musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
