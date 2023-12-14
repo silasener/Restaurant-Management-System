@@ -130,6 +130,7 @@ public class Problem1 extends JFrame {
                         System.out.println("\nAdım :"+grup.getAdimNo()+"\nÖncelikli musteri sayisi:"+grup.getOncelikliMusteriSayisi()+"\nNormal musteri sayisi:"+grup.getNormalMusteriSayisi());
                     }
                     RestoranYonetimSistemi restoranYonetimSistemi=new RestoranYonetimSistemi();
+                    setVisible(false);
                 }
             });
 

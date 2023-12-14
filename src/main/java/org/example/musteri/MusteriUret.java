@@ -29,7 +29,7 @@ public class MusteriUret extends Thread{
     public void musteriGrubuCagir() {
         normalMusteriNumarasi=Problem1.musteriGrubuList.get(musteriGrupSirasi).getNormalMusteriSayisi();
         oncelikliMusteriNumarasi=Problem1.musteriGrubuList.get(musteriGrupSirasi).getOncelikliMusteriSayisi();
-        System.out.println("\nAdım no: "+musteriGrupSirasi);
+        System.out.println("\nAdım no: "+(musteriGrupSirasi+1));
         for ( int i=0; i < oncelikliMusteriNumarasi; i++) {
             System.out.println("öncelikli müşteri numaraları: "+musteriNumarasi);
             RestoranYonetimSistemi.bekleyenMusteriEkle(musteriNumarasi);
@@ -50,10 +50,6 @@ public class MusteriUret extends Thread{
             }
         }
         musteriNumarasi++;
-
-        if(Problem1.musteriGrubuList.size()>musteriGrupSirasi){
-            musteriGrupSirasi++;
-        }
     }
 
 

@@ -83,7 +83,15 @@ public class RestoranYonetimSistemi  extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RestoranYonetimSistemi.oncelikliMusterilerBitirildi=false;
+                if(Problem1.musteriGrubuList.size()>MusteriUret.musteriGrupSirasi){
+                    MusteriUret.musteriGrupSirasi++;
+                    System.out.println("müşteri grup listesi size "+Problem1.musteriGrubuList.size());
+                    System.out.println("musteri grup sirasi "+MusteriUret.musteriGrupSirasi);
+                }
                 musteriUret.musteriGrubuCagir();
+                if((Problem1.musteriGrubuList.size()-1)==MusteriUret.musteriGrupSirasi){
+                    grupCagir.setEnabled(false);
+                }
             }
         });
 
