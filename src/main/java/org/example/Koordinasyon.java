@@ -21,9 +21,15 @@ public class Koordinasyon {
 		Masa masa = null;
 		try {
 			RestoranYonetimSistemi.mesajEkle("Müşteri:" + musteriThread.getMusteriNumarasi()+" beklemede ve uygun masa bekliyor");
-			/* Here, customer is about to wait for a table... add him to waiting label*/
-			//RestoranYonetimSistemi.bekleyenMusteriEkle(musteriThread.getMusteriNumarasi());
+
 			masa = masalar.getTable();
+
+			if(System.currentTimeMillis()-musteriThread.getYaratilmaZamani()>20000){ //müşteri bekleme süresi 20 saniye doldu mu ?
+				//masa bulunduktan sonra kontrol eder müşteri geleli kaç sn oldu ? , 20 sn dolduysa müşteri ayrılmış olacağı için işlem yaptırmaz
+				RestoranYonetimSistemi.beklemeSuresiDolanMusteriEkle(musteriThread.getMusteriNumarasi());
+				masalar.returnMasa(masa); // masa boş olduğu belirtilir
+				return null;
+			}
 
 			GarsonThread garson = RestoranYonetimSistemi.getGarsonUret().getGarson();
 			garson.setMasa(masa);

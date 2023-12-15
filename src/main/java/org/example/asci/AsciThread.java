@@ -33,7 +33,7 @@ public class AsciThread extends Thread {
                     this.asciLock.unlock();
                     asciPanel.asciMesajiEkle( "Aşçı " + asciNumarasi + " yemek yapmaya hazır" );
                 }else{
-                    Thread.sleep(1000 * (int)(Math.random() * 20));
+                    Thread.sleep(1000 * (int)(Math.random() * 5));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

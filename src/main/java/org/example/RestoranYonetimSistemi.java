@@ -27,6 +27,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     private static  RestaurantListLabel bekleyenMusterilerLabel;
     private static  RestaurantListLabel odemeYapipAyrilanMusterilerLabel;
     private static  RestaurantListLabel hizmetVerilenMusterilerLabel;
+    private static RestaurantListLabel beklemeSuresiDolanMusterilerLabel;
     private JPanel garsonPanel;
     private static GarsonUret garsonUret;
     private MusteriUret musteriUret;
@@ -70,14 +71,16 @@ public class RestoranYonetimSistemi  extends JFrame {
         bosMasaLabel = new JLabel("Boş Masalar: ");
         componentEkle(panel,bosMasaLabel,0,3,GridBagConstraints.CENTER,2,1);
         doluMasaLabel = new JLabel("Dolu Masalar: ");
-        componentEkle(panel,doluMasaLabel,4,3,GridBagConstraints.CENTER,2,1);
+        componentEkle(panel,doluMasaLabel,5,3,GridBagConstraints.CENTER,2,1);
         ReentrantLock threadKontrolu = new ReentrantLock();
         bekleyenMusterilerLabel = new RestaurantListLabel("Bekleyen Müşteriler: ", threadKontrolu);
         componentEkle(panel,bekleyenMusterilerLabel,0,4,GridBagConstraints.CENTER,2,1);
         odemeYapipAyrilanMusterilerLabel = new RestaurantListLabel("Ödeme Yapıp Ayrılan Müşteriler: ", threadKontrolu);
-        componentEkle(panel, odemeYapipAyrilanMusterilerLabel,0,5,GridBagConstraints.CENTER,2,1);
+        componentEkle(panel, odemeYapipAyrilanMusterilerLabel,5,6,GridBagConstraints.CENTER,2,1);
         hizmetVerilenMusterilerLabel  = new RestaurantListLabel("Hizmet Verilen Müşteriler: ", threadKontrolu);
-        componentEkle(panel,hizmetVerilenMusterilerLabel,0,6,GridBagConstraints.CENTER,2,1);
+        componentEkle(panel,hizmetVerilenMusterilerLabel,5,4,GridBagConstraints.CENTER,2,1);
+        beklemeSuresiDolanMusterilerLabel=new RestaurantListLabel("Bekleme Süresi Dolup Ayrılan Müşteriler: ",threadKontrolu);
+        componentEkle(panel,beklemeSuresiDolanMusterilerLabel,0,6,GridBagConstraints.CENTER,2,1);
 
         grupCagir.addActionListener(new ActionListener() {
             @Override
@@ -85,8 +88,6 @@ public class RestoranYonetimSistemi  extends JFrame {
                 RestoranYonetimSistemi.oncelikliMusterilerBitirildi=false;
                 if(Problem1.musteriGrubuList.size()>MusteriUret.musteriGrupSirasi){
                     MusteriUret.musteriGrupSirasi++;
-                    System.out.println("müşteri grup listesi size "+Problem1.musteriGrubuList.size());
-                    System.out.println("musteri grup sirasi "+MusteriUret.musteriGrupSirasi);
                 }
                 musteriUret.musteriGrubuCagir();
                 if((Problem1.musteriGrubuList.size()-1)==MusteriUret.musteriGrupSirasi){
@@ -183,7 +184,7 @@ public class RestoranYonetimSistemi  extends JFrame {
         add(kaydirilabilirMetin, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 500);
+        setSize(900, 500);
         setVisible(true);
     }
 
@@ -243,6 +244,11 @@ public class RestoranYonetimSistemi  extends JFrame {
     public static void hizmetVerilenMusteriEkle(int musteriNumarasi){
         bekleyenMusterilerLabel.remove(musteriNumarasi);
         hizmetVerilenMusterilerLabel.add(musteriNumarasi);
+    }
+
+    public static void beklemeSuresiDolanMusteriEkle(int musteriNumarasi){
+        bekleyenMusterilerLabel.remove(musteriNumarasi);
+        beklemeSuresiDolanMusterilerLabel.add(musteriNumarasi);
     }
 
     public static void garsonMesajiEkle(String mesaj, int garsonNumarasi) {

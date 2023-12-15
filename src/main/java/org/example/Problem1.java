@@ -145,19 +145,6 @@ public class Problem1 extends JFrame {
         setVisible(true);
     }
 
-
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException
-                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-
-        new Problem1();
-    }
-
     public static List<MusteriGrubu> getMusteriGrubuList() {
         return musteriGrubuList;
     }
