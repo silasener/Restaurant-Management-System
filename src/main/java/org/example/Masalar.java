@@ -6,58 +6,58 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 public class Masalar {
-	private int toplamMasaSayisi;
-	private int doluMasaSayisi;
-	private Masa[] masalarListesi;
-	private Lock lock = new ReentrantLock(); // senkronizasyon için kullanılır
-	private Condition uygunMasaYok = lock.newCondition(); //Bekleyen threadlere masanın dolu olduğunu bildirmek için kullanılır
+    private int toplamMasaSayisi;
+    private int doluMasaSayisi;
+    private Masa[] masalarListesi;
+    private Lock lock = new ReentrantLock(); // senkronizasyon için kullanılır
+    private Condition uygunMasaYok = lock.newCondition(); //Bekleyen threadlere masanın dolu olduğunu bildirmek için kullanılır
 
-	public Masalar(int toplamMasaSayisi) {
-		this.toplamMasaSayisi = toplamMasaSayisi;
-		this.masalarListesi = new Masa[toplamMasaSayisi];
-		this.doluMasaSayisi = 0;
-	}
-	
-	public Masa getTable() throws InterruptedException {
-		lock.lock();
-		Masa tableToReturn = null;
-		try {
-			while(this.doluMasaSayisi == this.toplamMasaSayisi) {
-				RestoranYonetimSistemi.mesajEkle("Uygun masa yok");
-				// wait for a table to become available
-				uygunMasaYok.await();
-				RestoranYonetimSistemi.mesajEkle("Uygun masa var");
-			}
-			// when this thread is signalled, find the table that is available
-			for (int i = 0; i < this.toplamMasaSayisi; i++) {
-				if (masalarListesi[i] == null) {
-					masalarListesi[i] = new Masa(i);
-					tableToReturn = masalarListesi[i];
-					doluMasaSayisi++;
-					break;
-				}
-			}
-		} finally {
-			lock.unlock();
-		}
-		RestoranYonetimSistemi.masaDurumlariniGuncelle(tableToReturn.getMasaNumarasi());
-		return tableToReturn;
-	}
-	
-	public void returnMasa(Masa table) {
-		lock.lock();
-		try {
-			for (int i = 0; i < this.toplamMasaSayisi; i++) {
-				if (i == table.getMasaNumarasi()) {
-					masalarListesi[i] = null;
-					doluMasaSayisi--;
-					RestoranYonetimSistemi.mesajEkle("Masa: "+table.getMasaNumarasi()+" uygun");
-					RestoranYonetimSistemi.masaDurumlariniGuncelle(table.getMasaNumarasi());
-					uygunMasaYok.signal();
-				}
-			}
-		} finally {
-			lock.unlock();
-		}
-	}
+    public Masalar(int toplamMasaSayisi) {
+        this.toplamMasaSayisi = toplamMasaSayisi;
+        this.masalarListesi = new Masa[toplamMasaSayisi];
+        this.doluMasaSayisi = 0;
+    }
+
+    public Masa getTable() throws InterruptedException {
+        lock.lock();
+        Masa tableToReturn = null;
+        try {
+            while (this.doluMasaSayisi == this.toplamMasaSayisi) {
+                RestoranYonetimSistemi.mesajEkle("Uygun masa yok");
+                // wait for a table to become available
+                uygunMasaYok.await();
+                RestoranYonetimSistemi.mesajEkle("Uygun masa var");
+            }
+            // when this thread is signalled, find the table that is available
+            for (int i = 0; i < this.toplamMasaSayisi; i++) {
+                if (masalarListesi[i] == null) {
+                    masalarListesi[i] = new Masa(i);
+                    tableToReturn = masalarListesi[i];
+                    doluMasaSayisi++;
+                    break;
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+        RestoranYonetimSistemi.masaDurumlariniGuncelle(tableToReturn.getMasaNumarasi());
+        return tableToReturn;
+    }
+
+    public void returnMasa(Masa table) {
+        lock.lock();
+        try {
+            for (int i = 0; i < this.toplamMasaSayisi; i++) {
+                if (i == table.getMasaNumarasi()) {
+                    masalarListesi[i] = null;
+                    doluMasaSayisi--;
+                    RestoranYonetimSistemi.mesajEkle("Masa: " + table.getMasaNumarasi() + " uygun");
+                    RestoranYonetimSistemi.masaDurumlariniGuncelle(table.getMasaNumarasi());
+                    uygunMasaYok.signal();
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 }

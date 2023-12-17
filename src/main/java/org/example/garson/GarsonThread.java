@@ -2,8 +2,8 @@ package org.example.garson;
 
 import org.example.Koordinasyon;
 import org.example.Masa;
-import org.example.Siparis;
 import org.example.RestoranYonetimSistemi;
+import org.example.Siparis;
 
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class GarsonThread extends Thread{
+public class GarsonThread extends Thread {
     private Koordinasyon koordinasyon;
     private Vector<Masa> masalar;
     private int garsonunNumarasi;
@@ -21,7 +21,6 @@ public class GarsonThread extends Thread{
     private Condition masaAtamaCondition = garsonLock.newCondition();
     private Condition siparisTamamlamaCondition = garsonLock.newCondition();
     private Siparis siparis;
-
 
 
     public GarsonThread(Koordinasyon koordinasyon, int garsonunNumarasi, GarsonUret garsonUret, int garsonunIlgilenebilecegiMasaSayisi) {
@@ -51,7 +50,7 @@ public class GarsonThread extends Thread{
         }
     }
 
-    public void setSiparis(Siparis o){
+    public void setSiparis(Siparis o) {
         try {
             Thread.sleep(2000); //garson 2 saniye sipariş alıyor
         } catch (InterruptedException e) {
@@ -60,11 +59,13 @@ public class GarsonThread extends Thread{
         this.siparis = o;
     }
 
-    public Siparis returnSiparis(){
+    public Siparis returnSiparis() {
         return siparis;
     }
 
-    public int getGarsonunNumarasi() {return this.garsonunNumarasi;}
+    public int getGarsonunNumarasi() {
+        return this.garsonunNumarasi;
+    }
 
     public void returnMasa(Masa masa) {
         masalar.remove(masa);
@@ -87,12 +88,12 @@ public class GarsonThread extends Thread{
                 this.masaAtamaCondition.await(); //Garson, bir masa atanana kadar bekler , masa atanır
                 this.siparisTamamlamaCondition.await(); //müşterinin siparişi tamamlanana kadar bekler.
                 this.garsonLock.unlock();
-                Thread.sleep(1000 * (int)(Math.random() * 10)); // sleep for between 0 and 10 seconds
+                Thread.sleep(1000 * (int) (Math.random() * 10)); // sleep for between 0 and 10 seconds
                 if (getMasa(0) != null) { // Garsonun ilgilendiği masalar içinde en az bir masa varsa
                     getMasa(0).getLock().lock();
                     // signal the customer who is "eating"
                     getMasa(0).getHazirCondition().signal(); //Masanın  müşterisine "yemek hazır"
-                    RestoranYonetimSistemi.garsonMesajiEkle("Garson: "+getGarsonunNumarasi()+" siparişi "+ returnSiparis().getSiparisTutari()+" masası "+ siparis.getMasa().getMasaNumarasi(),getGarsonunNumarasi());
+                    RestoranYonetimSistemi.garsonMesajiEkle("Garson: " + getGarsonunNumarasi() + " siparişi " + returnSiparis().getSiparisTutari() + " masası " + siparis.getMasa().getMasaNumarasi(), getGarsonunNumarasi());
                     getMasa(0).getLock().unlock();
                 }
             }

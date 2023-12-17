@@ -10,32 +10,40 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Masa {
 
-	private int masaNumarasi;
-	private MusteriThread musteriThread;
-	private GarsonThread garsonThread;
-	private Lock lock = new ReentrantLock();
-	private Condition hazirCondition = lock.newCondition();
+    private int masaNumarasi;
+    private MusteriThread musteriThread;
+    private GarsonThread garsonThread;
+    private Lock lock = new ReentrantLock();
+    private Condition hazirCondition = lock.newCondition();
 
-	public Masa(int masaNumarasi) {
-		this.masaNumarasi = masaNumarasi;
-	}
-	
-	public int getMasaNumarasi() {return this.masaNumarasi;}
+    public Masa(int masaNumarasi) {
+        this.masaNumarasi = masaNumarasi;
+    }
 
-	public MusteriThread getMusteriThread() {return musteriThread;}
+    public int getMasaNumarasi() {
+        return this.masaNumarasi;
+    }
 
-	public GarsonThread getGarsonThread() {return garsonThread;}
-	
-	public Lock getLock() {
-		return lock;
-	}
-	
-	public Condition getHazirCondition() {return hazirCondition;}
+    public MusteriThread getMusteriThread() {
+        return musteriThread;
+    }
 
-	public void masayaOturtveIlgilen(MusteriThread musteriThread, GarsonThread garsonThread) {
-		this.musteriThread = musteriThread;
-		this.garsonThread = garsonThread;
-	}
+    public GarsonThread getGarsonThread() {
+        return garsonThread;
+    }
+
+    public Lock getLock() {
+        return lock;
+    }
+
+    public Condition getHazirCondition() {
+        return hazirCondition;
+    }
+
+    public void masayaOturtveIlgilen(MusteriThread musteriThread, GarsonThread garsonThread) {
+        this.musteriThread = musteriThread;
+        this.garsonThread = garsonThread;
+    }
 
 
 }

@@ -43,6 +43,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     public static JTextField toplamOdemeField;
     private  JButton grupCagir;
     public static boolean oncelikliMusterilerBitirildi = false;
+    public static int toplamMasaSayisi;
 
 
 
@@ -209,7 +210,9 @@ public class RestoranYonetimSistemi  extends JFrame {
     }
 
 
-    public int getMasaNumaralari() {return masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());}
+    public int getMasaNumaralari() {
+        toplamMasaSayisi=masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());
+        return masaSayisiCombobox.getItemAt(masaSayisiCombobox.getSelectedIndex());}
 
     public int getGarsonNumaralari() {return garsonSayisiCombobox.getItemAt(garsonSayisiCombobox.getSelectedIndex());}
 

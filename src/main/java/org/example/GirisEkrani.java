@@ -1,4 +1,5 @@
 package org.example;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,34 +33,30 @@ public class GirisEkrani extends JFrame {
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
         button1 = new JButton("Problem 1");
-        button1.setBounds(600,250,200,100);
+        button1.setBounds(600, 250, 200, 100);
         button2 = new JButton("Problem 2");
-        button2.setBounds(600,400,200,100);
+        button2.setBounds(600, 400, 200, 100);
 
-        add(button1,BorderLayout.CENTER);
-        add(button2,BorderLayout.CENTER);
+        add(button1, BorderLayout.CENTER);
+        add(button2, BorderLayout.CENTER);
         add(mainPanel);
         setVisible(true);
-
 
 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Problem1 problem1=new Problem1();
+                Problem1 problem1 = new Problem1();
             }
         });
 
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Problem2 problem2=new Problem2();
+                Problem2 problem2 = new Problem2();
             }
         });
     }
-
-
-
 
 
     public static void main(String[] args) {

@@ -1,14 +1,8 @@
 package org.example.Kasa;
 
-import org.example.Koordinasyon;
 import org.example.RestoranYonetimSistemi;
 import org.example.Siparis;
-import org.example.asci.AsciUret;
 import org.example.musteri.MusteriThread;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
 
 public class KasaThread extends Thread {
     private static double siparisTutari;

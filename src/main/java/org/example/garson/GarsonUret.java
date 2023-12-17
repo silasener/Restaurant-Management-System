@@ -1,6 +1,7 @@
 package org.example.garson;
 
 import org.example.Koordinasyon;
+import org.example.RestoranYonetimSistemi;
 
 import java.util.Vector;
 import java.util.concurrent.locks.Condition;
@@ -19,12 +20,11 @@ public class GarsonUret { //garsonfactory
     public GarsonUret(Koordinasyon koordinasyon, int garsonSayisi) {
         this.koordinasyon = koordinasyon;
         this.garsonSayisi = garsonSayisi;
-        this.garsonunIlgilenebilecegiMasaSayisi = 1;
+        this.garsonunIlgilenebilecegiMasaSayisi = RestoranYonetimSistemi.toplamMasaSayisi / garsonSayisi;  //garsonun aynı anda ilgilenebileceği masa sayısı
         for (int i = 0; i < this.garsonSayisi; i++) {
             garsonThreadVectorleri.add(new GarsonThread(this.koordinasyon, i, this, garsonunIlgilenebilecegiMasaSayisi));
         }
     }
-
 
 
     public GarsonThread getGarson() {
@@ -33,7 +33,7 @@ public class GarsonUret { //garsonfactory
             lock.lock();
             while (garsonThreadi == null) {
                 int i;
-                for (i=0; i < garsonThreadVectorleri.size(); i++) {
+                for (i = 0; i < garsonThreadVectorleri.size(); i++) {
                     garsonThreadi = garsonThreadVectorleri.get(i);
                     if (garsonThreadi != null) {
                         if (garsonThreadi.getUygunMasaSayisi() > 0) {
@@ -45,7 +45,7 @@ public class GarsonUret { //garsonfactory
                     garsonUygunluguCondition.await();
                 }
             }
-        } catch(InterruptedException ie) {
+        } catch (InterruptedException ie) {
             System.out.println("WaiterFactory.getGarsonThread(): IE : " + ie.getMessage());
         } finally {
             lock.unlock();

@@ -2,16 +2,10 @@ package org.example.musteri;
 
 import org.example.Koordinasyon;
 import org.example.Masa;
-import org.example.Siparis;
 import org.example.RestoranYonetimSistemi;
+import org.example.Siparis;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.stream.Collectors;
-
-public class MusteriThread extends Thread{
+public class MusteriThread extends Thread {
     private int musteriNumarasi;
     private Koordinasyon koordinasyonThreadi;
     private Masa masa;
@@ -20,10 +14,10 @@ public class MusteriThread extends Thread{
     private long yaratilmaZamani;
 
 
-    public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi,boolean oncelikliMusteri) {
+    public MusteriThread(int musteriNumarasi, Koordinasyon koordinasyonThreadi, boolean oncelikliMusteri) {
         this.musteriNumarasi = musteriNumarasi;
         this.koordinasyonThreadi = koordinasyonThreadi;
-        this.oncelikliMusteri=oncelikliMusteri;
+        this.oncelikliMusteri = oncelikliMusteri;
         this.yaratilmaZamani = System.currentTimeMillis();
         this.start();
     }
@@ -40,31 +34,35 @@ public class MusteriThread extends Thread{
         return siparis;
     }
 
-    public void setSiparis(Siparis siparis){
+    public void setSiparis(Siparis siparis) {
         this.siparis = siparis;
     }
 
-    public Masa getMasa() {return this.masa;}
+    public Masa getMasa() {
+        return this.masa;
+    }
 
-    public int getMusteriNumarasi() {return this.musteriNumarasi;}
+    public int getMusteriNumarasi() {
+        return this.musteriNumarasi;
+    }
 
     public void run() {
         try {
-            if(this.isOncelikliMusteri()){
+            if (this.isOncelikliMusteri()) {
                 masa = koordinasyonThreadi.musteriYerlestir(this);
-                while (masa==null){
+                while (masa == null) {
                     Thread.sleep(1000);
                 }
-                Thread.sleep(1000 * (int)(Math.random() * 10)); // sleep for between 0 and 10 seconds
-                if(koordinasyonThreadi != null){
-                    RestoranYonetimSistemi.mesajEkle("Müşteri : "+ musteriNumarasi +" ve siparişi:  "+ siparis.getSiparisTutari() +" ve masası "+ getMasa().getMasaNumarasi());
+                Thread.sleep(1000 * (int) (Math.random() * 10)); // sleep for between 0 and 10 seconds
+                if (koordinasyonThreadi != null) {
+                    RestoranYonetimSistemi.mesajEkle("Müşteri : " + musteriNumarasi + " ve siparişi:  " + siparis.getSiparisTutari() + " ve masası " + getMasa().getMasaNumarasi());
                     RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + this.getMusteriNumarasi() + " yemek yiyor ", this.getMasa().getGarsonThread().getGarsonunNumarasi());
                     Thread.sleep(3000); //müşteri yemek yeme süresi
                     koordinasyonThreadi.musteriAyriliyor(this);
                 }
-            }else{
+            } else {
                 while (!RestoranYonetimSistemi.oncelikliMusterilerBitirildi) {
-                    if(System.currentTimeMillis()-this.yaratilmaZamani>20000){ //müşteri bekleme süresi 20 saniye doldu mu ?
+                    if (System.currentTimeMillis() - this.yaratilmaZamani > 20000) { //müşteri bekleme süresi 20 saniye doldu mu ?
                         this.interrupt();
                         RestoranYonetimSistemi.beklemeSuresiDolanMusteriEkle(this.getMusteriNumarasi());
                         return;
@@ -72,17 +70,17 @@ public class MusteriThread extends Thread{
                     Thread.sleep(1000);
                 }
 
-                if(System.currentTimeMillis()-this.yaratilmaZamani>20000){ //müşteri bekleme süresi 20 saniye doldu mu ?
+                if (System.currentTimeMillis() - this.yaratilmaZamani > 20000) { //müşteri bekleme süresi 20 saniye doldu mu ?
                     this.interrupt();
                     RestoranYonetimSistemi.beklemeSuresiDolanMusteriEkle(this.getMusteriNumarasi());
                     return;
                 }
 
                 masa = koordinasyonThreadi.musteriYerlestir(this);
-                Thread.sleep(1000 * (int)(Math.random() * 10)); // 0 ile 10 saniye arasında bekletme
+                Thread.sleep(1000 * (int) (Math.random() * 10)); // 0 ile 10 saniye arasında bekletme
                 if (koordinasyonThreadi != null) {
                     RestoranYonetimSistemi.mesajEkle("Normal Müşteri : " + musteriNumarasi + " masaya yerleşti.");
-                    System.out.println("Öncelikli müşteriler yerleştirildi ,Normal müşteri yerleştiriliyor müşteri no: "+this.musteriNumarasi);
+                    System.out.println("Öncelikli müşteriler yerleştirildi ,Normal müşteri yerleştiriliyor müşteri no: " + this.musteriNumarasi);
                     RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + this.getMusteriNumarasi() + " yemek yiyor ", this.getMasa().getGarsonThread().getGarsonunNumarasi());
                     Thread.sleep(3000); //müşteri yemek yeme süresi
                     koordinasyonThreadi.musteriAyriliyor(this);

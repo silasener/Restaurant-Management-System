@@ -1,4 +1,5 @@
 package org.example;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Problem1 extends JFrame {
-    private int adimSayisi;
+    public static List<MusteriGrubu> musteriGrubuList = new ArrayList<>();
     private static JButton kaydetButton;
+    private int adimSayisi;
     private int i;
     private int j;
-    public static List<MusteriGrubu> musteriGrubuList=new ArrayList<>();
 
 
     public Problem1() {
@@ -57,7 +58,7 @@ public class Problem1 extends JFrame {
 
 
                     for (i = 1; i <= adimSayisi; i++) {
-                        MusteriGrubu gruplar=new MusteriGrubu(i);
+                        MusteriGrubu gruplar = new MusteriGrubu(i);
                         musteriGrubuList.add(gruplar);
                         JComboBox<Integer> oncelikliMusteriComboBox = new JComboBox<>();
                         oncelikliMusteriComboBox.setToolTipText(String.valueOf(i));
@@ -79,8 +80,8 @@ public class Problem1 extends JFrame {
                                     normalMusteriComboBox.addItem(k);
                                 }
 
-                                for (MusteriGrubu grup:musteriGrubuList) {
-                                    if(grup.getAdimNo()==Integer.parseInt(normalMusteriComboBox.getToolTipText())){
+                                for (MusteriGrubu grup : musteriGrubuList) {
+                                    if (grup.getAdimNo() == Integer.parseInt(normalMusteriComboBox.getToolTipText())) {
                                         grup.setOncelikliMusteriSayisi((Integer) oncelikliMusteriComboBox.getSelectedItem());
                                         grup.setNormalMusteriSayisi((Integer) normalMusteriComboBox.getSelectedItem());
                                     }
@@ -91,8 +92,8 @@ public class Problem1 extends JFrame {
                         normalMusteriComboBox.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                for (MusteriGrubu grup:musteriGrubuList) {
-                                    if(grup.getAdimNo()==Integer.parseInt(normalMusteriComboBox.getToolTipText())){
+                                for (MusteriGrubu grup : musteriGrubuList) {
+                                    if (grup.getAdimNo() == Integer.parseInt(normalMusteriComboBox.getToolTipText())) {
                                         grup.setOncelikliMusteriSayisi((Integer) oncelikliMusteriComboBox.getSelectedItem());
                                         grup.setNormalMusteriSayisi((Integer) normalMusteriComboBox.getSelectedItem());
                                     }
@@ -123,16 +124,16 @@ public class Problem1 extends JFrame {
         });
 
 
-            kaydetButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    for (MusteriGrubu grup:musteriGrubuList) {
-                        System.out.println("\nAdım :"+grup.getAdimNo()+"\nÖncelikli musteri sayisi:"+grup.getOncelikliMusteriSayisi()+"\nNormal musteri sayisi:"+grup.getNormalMusteriSayisi());
-                    }
-                    RestoranYonetimSistemi restoranYonetimSistemi=new RestoranYonetimSistemi();
-                    setVisible(false);
+        kaydetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (MusteriGrubu grup : musteriGrubuList) {
+                    System.out.println("\nAdım :" + grup.getAdimNo() + "\nÖncelikli musteri sayisi:" + grup.getOncelikliMusteriSayisi() + "\nNormal musteri sayisi:" + grup.getNormalMusteriSayisi());
                 }
-            });
+                RestoranYonetimSistemi restoranYonetimSistemi = new RestoranYonetimSistemi();
+                setVisible(false);
+            }
+        });
 
         // Ana panele üst ve orta panelleri ekle
         anaPanel.add(ustPanel, BorderLayout.NORTH);
