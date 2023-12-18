@@ -127,10 +127,13 @@ public class RestoranYonetimSistemi  extends JFrame {
                     add(garsonPanel, BorderLayout.SOUTH);
 
                     Koordinasyon koordine = new Koordinasyon(getMasaNumaralari());
+                    asciUret = new AsciUret(asciPanel,getAsciNumaralari());  //aşçı
                     garsonUret = new GarsonUret(koordine, getGarsonNumaralari()); //garson
+                    for (int i = 0; i < getGarsonNumaralari(); i++) {
+                        RestoranYonetimSistemi.garsonMesajiEkle("Garson "+i,i);
+                    }
                     musteriUret= new MusteriUret(koordine); //müşteri
                     musteriUret.musteriGrubuCagir();
-                    asciUret = new AsciUret(asciPanel,getAsciNumaralari());  //aşçı
 
                     kasaLog=new JFrame();
                     kasaLog.setTitle("KASA");

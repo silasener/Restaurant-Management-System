@@ -50,11 +50,17 @@ public class MusteriThread extends Thread {
         try {
             if (this.isOncelikliMusteri()) {
                 masa = koordinasyonThreadi.musteriYerlestir(this);
+                Thread.sleep(1000 * (int) (Math.random() * 10)); // sleep for between 0 and 10 seconds
+                if (System.currentTimeMillis() - this.yaratilmaZamani > 20000) { //müşteri bekleme süresi 20 saniye doldu mu ?
+                    this.interrupt();
+                    RestoranYonetimSistemi.beklemeSuresiDolanMusteriEkle(this.getMusteriNumarasi());
+                    return;
+                }
                 while (masa == null) {
                     Thread.sleep(1000);
                 }
-                Thread.sleep(1000 * (int) (Math.random() * 10)); // sleep for between 0 and 10 seconds
                 if (koordinasyonThreadi != null) {
+                    RestoranYonetimSistemi.garsonMesajiEkle("Sipariş no "+siparis.getSiparisNo()+ " teslim edildi , masası "+this.getMasa().getMasaNumarasi()+" ,müşterisi "+musteriNumarasi, this.getMasa().getGarsonThread().getGarsonunNumarasi());
                     RestoranYonetimSistemi.mesajEkle("Müşteri : " + musteriNumarasi + " ve siparişi:  " + siparis.getSiparisTutari() + " ve masası " + getMasa().getMasaNumarasi());
                     RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + this.getMusteriNumarasi() + " yemek yiyor ", this.getMasa().getGarsonThread().getGarsonunNumarasi());
                     Thread.sleep(3000); //müşteri yemek yeme süresi

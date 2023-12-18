@@ -1,6 +1,7 @@
 package org.example.asci;
 
 import org.example.AsciPanel;
+import org.example.RestoranYonetimSistemi;
 import org.example.Siparis;
 
 import java.util.concurrent.Semaphore;
@@ -29,12 +30,15 @@ public class AsciThread extends Thread {
                 if (!AsciUret.hazirlanacakSiparisleriGetir().isEmpty()) { //sipariş varsa çalışır  hazirlanacakSiparisleriGetir()==order
                     this.asciLock.lock();
                     Siparis siparis = AsciUret.hazirlanacakSiparisleriGetir().get(0); //order=; garson,aşçı,masa,sipariş
-                    asciPanel.asciMesajiEkle("Aşçı: " + asciNumarasi + " ve alınan sipariş " + siparis.getSiparisNo() + " ve siparişin masası " + siparis.getMasa().getMasaNumarasi() + " garsonu :" + siparis.getGarsonThread().getGarsonunNumarasi());
-                    Thread.sleep(3000); // aşçının yemek yapma süresi 3 sn
-                    asciPanel.asciMesajiEkle("Aşçı:  " + asciNumarasi + " ve tamamladığı sipariş " + siparis.getSiparisNo() + " ve siparişin masası " + siparis.getMasa().getMasaNumarasi() + " garsonu :" + siparis.getGarsonThread().getGarsonunNumarasi());
                     AsciUret.hazirlanacakSiparisleriGetir().remove(0);
+                    asciPanel.asciMesajiEkle("Aşçı " + asciNumarasi + " , sipariş " + siparis.getSiparisNo() + " için yemek hazırlıyor, masası:" + siparis.getMasa().getMasaNumarasi() + ", garsonu:" + siparis.getGarsonThread().getGarsonunNumarasi()+", müşterisi:"+siparis.getMusteriNumarasi());
+                    RestoranYonetimSistemi.mesajEkle("Aşçı " + asciNumarasi + " , sipariş " + siparis.getSiparisNo() + " için yemek hazırlıyor, masası:" + siparis.getMasa().getMasaNumarasi() + ", garsonu:" + siparis.getGarsonThread().getGarsonunNumarasi()+", müşterisi:"+siparis.getMusteriNumarasi());
+                    Thread.sleep(3000); // aşçının yemek yapma süresi 3 sn
+                    asciPanel.asciMesajiEkle("Aşçı " + asciNumarasi + " , sipariş " + siparis.getSiparisNo()  + " tamamladı" + ", masası: " + siparis.getMasa().getMasaNumarasi() + " , garsonu:" + siparis.getGarsonThread().getGarsonunNumarasi()+", müşterisi:"+siparis.getMusteriNumarasi());
+                    RestoranYonetimSistemi.mesajEkle("Aşçı " + asciNumarasi + " , sipariş " + siparis.getSiparisNo()  + " tamamladı" + ", masası: " + siparis.getMasa().getMasaNumarasi() + " , garsonu:" + siparis.getGarsonThread().getGarsonunNumarasi()+", müşterisi:"+siparis.getMusteriNumarasi());
                     this.asciLock.unlock();
                     asciPanel.asciMesajiEkle("Aşçı " + asciNumarasi + " yemek yapmaya hazır");
+                    RestoranYonetimSistemi.mesajEkle("Aşçı " + asciNumarasi + " yemek yapmaya hazır");
                 } else {
                     Thread.sleep(1000 * (int) (Math.random() * 5));
                 }

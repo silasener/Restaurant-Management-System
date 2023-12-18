@@ -20,7 +20,7 @@ public class GarsonUret { //garsonfactory
     public GarsonUret(Koordinasyon koordinasyon, int garsonSayisi) {
         this.koordinasyon = koordinasyon;
         this.garsonSayisi = garsonSayisi;
-        this.garsonunIlgilenebilecegiMasaSayisi = RestoranYonetimSistemi.toplamMasaSayisi / garsonSayisi;  //garsonun aynı anda ilgilenebileceği masa sayısı
+        this.garsonunIlgilenebilecegiMasaSayisi =RestoranYonetimSistemi.toplamMasaSayisi / garsonSayisi;  //garsonun aynı anda ilgilenebileceği masa sayısı
         for (int i = 0; i < this.garsonSayisi; i++) {
             garsonThreadVectorleri.add(new GarsonThread(this.koordinasyon, i, this, garsonunIlgilenebilecegiMasaSayisi));
         }

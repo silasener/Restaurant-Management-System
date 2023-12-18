@@ -1,8 +1,11 @@
 package org.example.Kasa;
 
+import org.example.Koordinasyon;
 import org.example.RestoranYonetimSistemi;
 import org.example.Siparis;
 import org.example.musteri.MusteriThread;
+
+import java.util.Vector;
 
 public class KasaThread extends Thread {
     private static double siparisTutari;
@@ -37,9 +40,8 @@ public class KasaThread extends Thread {
             RestoranYonetimSistemi.toplamOdemeField.setText(String.valueOf(KasaThread.getSiparisTutari()));
             odemeYapanToplamMusteriSayisi++;
             RestoranYonetimSistemi.musteriSayisiField.setText(String.valueOf(KasaThread.getOdemeYapanToplamMusteriSayisi()));
-            RestoranYonetimSistemi.kasaMesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alınıyor sipariş no: " + siparis.getSiparisNo());
+            RestoranYonetimSistemi.kasaMesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı sipariş no: " + siparis.getSiparisNo()+ " - ödeme tutarı: " + siparis.getSiparisTutari());
             Thread.sleep(1000); // kasa ödeme alma süresi
-            RestoranYonetimSistemi.kasaMesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı sipariş no: " + siparis.getSiparisNo());
             RestoranYonetimSistemi.mesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı: ");
         } catch (Exception e) {
             System.out.println("KasaThread.run(): InterruptedException: " + e.getMessage());

@@ -18,12 +18,8 @@ public class Koordinasyon {
     public Masa musteriYerlestir(MusteriThread musteriThread) {
         Masa masa = null;
         try {
-            RestoranYonetimSistemi.mesajEkle("Müşteri:" + musteriThread.getMusteriNumarasi() + " beklemede ve uygun masa bekliyor");
-
             masa = masalar.getTable();
-
             if (System.currentTimeMillis() - musteriThread.getYaratilmaZamani() > 20000) { //müşteri bekleme süresi 20 saniye doldu mu ?
-                //masa bulunduktan sonra kontrol eder müşteri geleli kaç sn oldu ? , 20 sn dolduysa müşteri ayrılmış olacağı için işlem yaptırmaz
                 RestoranYonetimSistemi.beklemeSuresiDolanMusteriEkle(musteriThread.getMusteriNumarasi());
                 masalar.returnMasa(masa); // masa boş olduğu belirtilir
                 return null;
@@ -33,19 +29,17 @@ public class Koordinasyon {
             garson.setMasa(masa);
             masa.masayaOturtveIlgilen(musteriThread, garson);
 
-            //müşteri oturur
             RestoranYonetimSistemi.hizmetVerilenMusteriEkle(musteriThread.getMusteriNumarasi());
-            RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
+            RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " ,oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
 
-            // müşteri sipariş verir
             Random rand = new Random();
             int randomOrder = rand.nextInt(2);
             Siparis order = new Siparis(randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
+            RestoranYonetimSistemi.garsonMesajiEkle("Müşteri "+musteriThread.getMusteriNumarasi()+" siparişi alındı, masası " + order.getMasa().getMasaNumarasi()+" ,sipariş no: "+order.getSiparisNo()+" tutarı: " + order.getSiparisTutari(), garson.getGarsonunNumarasi());
             RestoranYonetimSistemi.asciUret.yeniSiparisEkle(order);  //aşçının siparişi oluşur
             garson.setSiparis(order);
             musteriThread.setSiparis(order);
 
-            RestoranYonetimSistemi.garsonMesajiEkle("Garson " + garson.getGarsonunNumarasi() + " aldığı sipariş tutarı: " + order.getSiparisTutari() + " ve aldığı masa " + order.getMasa().getMasaNumarasi(), garson.getGarsonunNumarasi());
             RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
 
 
