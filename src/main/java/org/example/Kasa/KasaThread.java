@@ -41,8 +41,8 @@ public class KasaThread extends Thread {
             odemeYapanToplamMusteriSayisi++;
             RestoranYonetimSistemi.musteriSayisiField.setText(String.valueOf(KasaThread.getOdemeYapanToplamMusteriSayisi()));
             RestoranYonetimSistemi.kasaMesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı sipariş no: " + siparis.getSiparisNo()+ " - ödeme tutarı: " + siparis.getSiparisTutari());
+           // RestoranYonetimSistemi.mesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı sipariş no: "+siparis.getSiparisNo()+" - ödeme tutarı : "+siparis.getSiparisTutari());
             Thread.sleep(1000); // kasa ödeme alma süresi
-            RestoranYonetimSistemi.mesajEkle("Müşteri " + siparis.getMusteriNumarasi() + " için ödeme alındı: ");
         } catch (Exception e) {
             System.out.println("KasaThread.run(): InterruptedException: " + e.getMessage());
         }

@@ -20,11 +20,6 @@ public class AsciPanel extends JPanel {
     }
 
     public void asciMesajiEkle(String mesaj) {
-        String text = asciPanelMesajlari.getText();
-        if (text == null || text.length() == 0) {
-            asciPanelMesajlari.setText(mesaj);
-        } else {
-            asciPanelMesajlari.setText(asciPanelMesajlari.getText() + "\n" + mesaj);
-        }
+        asciPanelMesajlari.append(mesaj + "\n");
     }
 }

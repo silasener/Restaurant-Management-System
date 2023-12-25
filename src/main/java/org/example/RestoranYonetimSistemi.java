@@ -8,9 +8,13 @@ import org.example.musteri.MusteriUret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +48,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     private  JButton grupCagir;
     public static boolean oncelikliMusterilerBitirildi = false;
     public static int toplamMasaSayisi;
+    public static BufferedWriter writer;
 
 
 
@@ -51,6 +56,15 @@ public class RestoranYonetimSistemi  extends JFrame {
         super("Restoran Yönetim Sistemi");
         JPanel panel=new JPanel();
         panel.setLayout(new GridBagLayout());
+
+        try {
+            writer = new BufferedWriter(new FileWriter("/Users/silasener/Desktop/anlik.txt", false));
+            writer.close();  // İçeriği temizledikten sonra dosyayı kapat
+
+            writer = new BufferedWriter(new FileWriter("/Users/silasener/Desktop/anlik.txt", true)); // yazma modu
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Integer [] sayisalDegerler= {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         asciSayisiCombobox=new JComboBox<Integer>(sayisalDegerler);
@@ -64,9 +78,9 @@ public class RestoranYonetimSistemi  extends JFrame {
         JLabel asciSayisiLabel = new JLabel("Aşçı Sayısı:");
         comboboxEkle(panel, asciSayisiLabel, asciSayisiCombobox, 4, 0);
         JButton baslat = new JButton("BAŞLAT");
-        componentEkle(panel, baslat, 6, 0, GridBagConstraints.CENTER, 2, 1);
+        componentEkle(panel, baslat, 8, 0, GridBagConstraints.CENTER, 2, 1);
         grupCagir = new JButton("grup çağır");
-        componentEkle(panel, grupCagir, 8, 0, GridBagConstraints.CENTER, 2, 1);
+        componentEkle(panel, grupCagir, 6, 0, GridBagConstraints.CENTER, 2, 1);
         grupCagir.setEnabled(false);
 
         bosMasaLabel = new JLabel("Boş Masalar: ");
@@ -132,8 +146,20 @@ public class RestoranYonetimSistemi  extends JFrame {
                     for (int i = 0; i < getGarsonNumaralari(); i++) {
                         RestoranYonetimSistemi.garsonMesajiEkle("Garson "+i,i);
                     }
-                    musteriUret= new MusteriUret(koordine); //müşteri
-                    musteriUret.musteriGrubuCagir();
+
+                    Timer timer = new Timer(2000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            musteriUret= new MusteriUret(koordine); //müşteri
+                            musteriUret.musteriGrubuCagir();
+                            if((Problem1.musteriGrubuList.size()-1)==MusteriUret.musteriGrupSirasi){
+                                grupCagir.setEnabled(false);
+                            }
+                        }
+                    });
+                    timer.setRepeats(false); // Tek seferlik çalışacak
+                    timer.start();
+
 
                     kasaLog=new JFrame();
                     kasaLog.setTitle("KASA");
@@ -188,7 +214,7 @@ public class RestoranYonetimSistemi  extends JFrame {
         add(kaydirilabilirMetin, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 500);
+        setSize(1000, 800);
         setVisible(true);
     }
 
@@ -223,23 +249,17 @@ public class RestoranYonetimSistemi  extends JFrame {
 
 
     public static void mesajEkle(String msg) {
-        String text = metin.getText();
-        if (text == null || text.length() == 0) {
-            metin.setText(msg);
-        }
-        else {
-            metin.setText(metin.getText() + "\n" + msg);
-        }
+        metin.append(msg+"\n");
+        try {
+            writer.write(msg);
+            writer.newLine();
+            writer.flush(); // verilerin anlık yazılmasını sağlar
+        }catch (IOException e) {}
+
     }
 
     public static void kasaMesajEkle(String msg) {
-        String text = kasaLogTextArea.getText();
-        if (text == null || text.length() == 0) {
-            kasaLogTextArea.setText(msg);
-        }
-        else {
-            kasaLogTextArea.setText(kasaLogTextArea.getText() + "\n" + msg);
-        }
+        kasaLogTextArea.append(msg+"\n");
     }
 
 
@@ -258,13 +278,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     }
 
     public static void garsonMesajiEkle(String mesaj, int garsonNumarasi) {
-        String text = garsonlar[garsonNumarasi].getText();
-        if (text == null || text.length() == 0) {
-            garsonlar[garsonNumarasi].setText(mesaj);
-        }
-        else {
-            garsonlar[garsonNumarasi].setText(garsonlar[garsonNumarasi].getText() + "\n" + mesaj);
-        }
+        garsonlar[garsonNumarasi].append(mesaj+"\n");
     }
 
     public static void musteriAyrilacakLabelGuncelle(int musteriNumarasi){

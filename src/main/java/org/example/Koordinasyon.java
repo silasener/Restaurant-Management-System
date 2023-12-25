@@ -31,16 +31,16 @@ public class Koordinasyon {
 
             RestoranYonetimSistemi.hizmetVerilenMusteriEkle(musteriThread.getMusteriNumarasi());
             RestoranYonetimSistemi.garsonMesajiEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " ,oturduğu masa: " + masa.getMasaNumarasi(), garson.getGarsonunNumarasi());
+            RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " ,oturduğu masa: " + masa.getMasaNumarasi());
 
             Random rand = new Random();
             int randomOrder = rand.nextInt(2);
             Siparis order = new Siparis(randomOrder, musteriThread.getMusteriNumarasi(), masa, garson); //order içinde garson, masa , aşçı tutularak kullanıma hazır hle getirilir
             RestoranYonetimSistemi.garsonMesajiEkle("Müşteri "+musteriThread.getMusteriNumarasi()+" siparişi alındı, masası " + order.getMasa().getMasaNumarasi()+" ,sipariş no: "+order.getSiparisNo()+" tutarı: " + order.getSiparisTutari(), garson.getGarsonunNumarasi());
+            RestoranYonetimSistemi.mesajEkle("Müşteri "+musteriThread.getMusteriNumarasi()+" siparişi alındı, masası " + order.getMasa().getMasaNumarasi()+" ,sipariş no: "+order.getSiparisNo()+" tutarı: " + order.getSiparisTutari());
             RestoranYonetimSistemi.asciUret.yeniSiparisEkle(order);  //aşçının siparişi oluşur
             garson.setSiparis(order);
             musteriThread.setSiparis(order);
-
-            RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " oturduğu masa: " + masa.getMasaNumarasi() + " ve garsonu: " + garson.getGarsonunNumarasi());
 
 
         } catch (InterruptedException ie) {
@@ -57,10 +57,11 @@ public class Koordinasyon {
             RestoranYonetimSistemi.oncelikliMusterilerBitirildi = true;
         }
         RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
-        RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " yemek yedi ve ayrılıyor.");
-        musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
+        RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak");
+        RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " için ödeme alındı sipariş no: "+musteriThread.getSiparis().getSiparisNo()+" - ödeme tutarı : "+musteriThread.getSiparis().getSiparisTutari());
         KasaThread kasaThread = new KasaThread(musteriThread);
         kasaThread.start();
+        musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
         masalar.returnMasa(musteriThread.getMasa());
     }
 
