@@ -8,7 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class GarsonUret { //garsonfactory
+public class GarsonUret {
 
     private Vector<GarsonThread> garsonThreadVectorleri = new Vector<GarsonThread>();
     private int garsonSayisi;
@@ -21,7 +21,7 @@ public class GarsonUret { //garsonfactory
         this.koordinasyon = koordinasyon;
         this.garsonSayisi = garsonSayisi;
         int garsonBasinaDusenMasaSayisi= (int) Math.ceil((double) RestoranYonetimSistemi.toplamMasaSayisi / garsonSayisi);
-        this.garsonunIlgilenebilecegiMasaSayisi = garsonBasinaDusenMasaSayisi;  //garsonun aynı anda ilgilenebileceği masa sayısı
+        this.garsonunIlgilenebilecegiMasaSayisi = garsonBasinaDusenMasaSayisi;  //garsonun ilgilenebileceği masa sayısı
         for (int i = 0; i < this.garsonSayisi; i++) {
             garsonThreadVectorleri.add(new GarsonThread(this.koordinasyon, i, this, garsonunIlgilenebilecegiMasaSayisi));
         }

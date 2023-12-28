@@ -1,5 +1,6 @@
 package org.example;
 import org.example.Kasa.KasaThread;
+import org.example.Kasa.KasaUret;
 import org.example.asci.AsciUret;
 import org.example.garson.GarsonUret;
 import org.example.musteri.MusteriThread;
@@ -9,12 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +46,7 @@ public class RestoranYonetimSistemi  extends JFrame {
     public static boolean oncelikliMusterilerBitirildi = false;
     public static int toplamMasaSayisi;
     public static BufferedWriter writer;
+    public static KasaUret kasaUret;
 
 
 
@@ -195,6 +193,7 @@ public class RestoranYonetimSistemi  extends JFrame {
                     kasaLog.add(kasaLogScrollPane, BorderLayout.CENTER);
 
                     kasaLog.setVisible(true);
+                    kasaUret=new KasaUret(panelKasa,koordine);
 
 
                 }else if (baslat.getText().equals("DURDUR")) {

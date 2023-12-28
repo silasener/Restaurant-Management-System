@@ -59,8 +59,7 @@ public class Koordinasyon {
         RestoranYonetimSistemi.garsonMesajiEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak", musteriThread.getMasa().getGarsonThread().getGarsonunNumarasi());
         RestoranYonetimSistemi.mesajEkle("Müşteri: " + musteriThread.getMusteriNumarasi() + " yemek yedi , ödeme yapıp ayrılacak");
         RestoranYonetimSistemi.mesajEkle("Müşteri " + musteriThread.getMusteriNumarasi() + " için ödeme alındı sipariş no: "+musteriThread.getSiparis().getSiparisNo()+" - ödeme tutarı : "+musteriThread.getSiparis().getSiparisTutari());
-        KasaThread kasaThread = new KasaThread(musteriThread);
-        kasaThread.start();
+        RestoranYonetimSistemi.kasaUret.odenecekSiparisEkle(musteriThread.getSiparis()); //kasa thread run çalışır
         musteriThread.getMasa().getGarsonThread().returnMasa(musteriThread.getMasa());
         masalar.returnMasa(musteriThread.getMasa());
     }
