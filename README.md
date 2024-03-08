@@ -7,13 +7,13 @@ This project aims to simulate the daily operations of a restaurant using multith
 
 ## Project Screens
 
-1. **Main Screen:**
+1. **Problem-1 Screen:**
  ![WhatsApp Image 2024-03-08 at 12 11 32](https://github.com/silasener/Restaurant-Management-System/assets/105547660/31daf257-1c7a-49a1-a37b-534101b7be34)
 
    
 
 
-3. **Detail Screen:**
+3. **Problem-2 Screen:**
 ![WhatsApp Image 2024-03-08 at 12 11 32 (1)](https://github.com/silasener/Restaurant-Management-System/assets/105547660/8c16a52b-ba83-4ea8-a0e4-b106d811d4c8)
 
 
