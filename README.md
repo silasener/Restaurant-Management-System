@@ -3,8 +3,14 @@
 ## Introduction
 This project aims to simulate the daily operations of a restaurant using multithreading concepts in Java. The system manages customer groups, waiters, chefs, and a cashier, each handled as separate threads. The goal is to implement thread synchronization and resource management in a real-time environment.
 
+
+## Project Screen
+
 ## Project Overview
 The restaurant management system consists of the following components:
+
+
+
 
 1. **Processes:**
    - Customers entering the restaurant
